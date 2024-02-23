@@ -8,8 +8,8 @@ public class Main {
 
         JFrame frame = new JFrame();
         frame.setSize(screenSize);
-        Screen screen = new Screen((int)screenSize.getWidth(), (int)screenSize.getHeight());
-        frame.add(screen);
+        Intro intro = new Intro((int)screenSize.getWidth(), (int)screenSize.getHeight());
+        frame.add(intro);
         frame.setVisible(true);
     }
 }

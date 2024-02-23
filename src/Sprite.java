@@ -8,9 +8,9 @@ public class Sprite extends GameObject{
 
     Image scaledImg;
 
-    public Sprite(Vec2 pos, boolean grav, String sprite, Vec2 size)
+    public Sprite(Vec2 pos, String sprite, Vec2 size)
     {
-        super(pos, grav);
+        super(pos);
         this.sprite = sprite;
         this.size = size;
         ImageIcon img = new ImageIcon(sprite);

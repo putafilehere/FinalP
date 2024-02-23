@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 
-public class Screen extends JPanel {
+public class Phase1 extends JPanel {
 
     private ArrayList<GameObject> objs = new ArrayList<>();
     private int width, height;
@@ -14,11 +14,11 @@ public class Screen extends JPanel {
     private Sprite player;
 
     // initialization of everything
-    public Screen(int width, int height) {
+    public Phase1(int width, int height) {
         this.width = width;
         this.height = height;
         setBackground(new Color(60, 50, 65));
-        player = new Sprite(new Vec2(0, 0), false, "images/maxwell.jpeg", new Vec2(100, 100));
+        player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100));
         objs.add(player);
         addKeyListener(new MyKeyListener());
         setFocusable(true); // Ensure the panel can receive key events

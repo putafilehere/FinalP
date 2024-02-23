@@ -7,12 +7,9 @@ public abstract class GameObject {
 
     private Vec2 vel;
 
-    private boolean grav;
-
-    public GameObject(Vec2 pos, boolean grav)
+    public GameObject(Vec2 pos)
     {
         this.pos = pos;
-        this.grav = grav;
         this.vel = new Vec2(0, 0);
     }
 
