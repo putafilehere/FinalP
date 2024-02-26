@@ -29,27 +29,27 @@ public class Phase1 extends JPanel {
         super.paintComponent(g);
         for (GameObject thing : objs) {
             if (pressedKeys.contains('w')) {
-                if (thing.getVel().getY() == 0)
+                if (player.getVel().getY() == 0)
                     player.addVel(new Vec2(0, -5));
-            } else if (thing.getVel().getY() == -5) {
+            } else if (player.getVel().getY() == -5) {
                 player.addVel(new Vec2(0, 5));
             }
             if (pressedKeys.contains('a')) {
-                if (thing.getVel().getX() == 0)
+                if (player.getVel().getX() == 0)
                     player.addVel(new Vec2(-5, 0));
-            } else if (thing.getVel().getX() == -5) {
+            } else if (player.getVel().getX() == -5) {
                 player.addVel(new Vec2(5, 0));
             }
             if (pressedKeys.contains('s')) {
-                if (thing.getVel().getY() == 0)
+                if (player.getVel().getY() == 0)
                     player.setVel(new Vec2(0, 5));
-            } else if (thing.getVel().getY() == 5) {
+            } else if (player.getVel().getY() == 5) {
                 player.addVel(new Vec2(0, -5));
             }
             if (pressedKeys.contains('d')) {
-                if (thing.getVel().getX() == 0)
+                if (player.getVel().getX() == 0)
                     player.addVel(new Vec2(5, 0));
-            } else if (thing.getVel().getX() == 5) {
+            } else if (player.getVel().getX() == 5) {
                 player.addVel(new Vec2(-5, 0));
             }
             int yPos = thing.getPos().getY();

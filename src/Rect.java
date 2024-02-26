@@ -16,6 +16,7 @@ public class Rect extends GameObject {
     @Override
     public void draw(Graphics g)
     {
+        g.setColor(color);
         g.fillRect(getPos().getX(), getPos().getY(), size.getX(), size.getY());
     }
 
