@@ -16,18 +16,16 @@ public class Text extends GameObject {
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
-        g.drawString(text, getPos().getX(), getPos().getY());
+        g.drawString(text, getPos().getX(), getPos().getY() + getTextSize().getY());
     }
 
     public Vec2 getTextSize() {
         Graphics2D g2d = (Graphics2D) new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).getGraphics();
 
-        // Get the font metrics (uses default font)
+        // Get font metrics
         FontMetrics fontMetrics = g2d.getFontMetrics();
-
-        // Get the height of the text
+        // Get height of text
         int textHeight = fontMetrics.getHeight();
-
         int totalWidth = 0;
         for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);

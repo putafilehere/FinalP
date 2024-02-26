@@ -14,7 +14,7 @@ public class Intro extends JPanel {
         this.width = width;
         this.height = height;
         setBackground(new Color(50, 40, 45));
-        objs.add(new Text(new Vec2(width/2, height/2), "import java.awt.*;", new Color(255, 255, 0)));
+        objs.add(new Text(new Vec2(0, 0), "import java.awt.*;", new Color(255, 255, 0)));
     }
 
     @Override
