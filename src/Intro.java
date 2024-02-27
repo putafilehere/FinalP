@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.awt.event.ActionEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Intro extends JPanel {
 
@@ -18,6 +21,7 @@ public class Intro extends JPanel {
       //these wrappers are necessary to make them "effectively" final
         int[] yCounterWrapper = {0};
         int[] startCountWrapper = {0};
+        ScheduledExecutorService textLoop = Executors.newScheduledThreadPool(1);
       String[] codeLines = {
           "import java.awt.*;",
           "import javax.swing.*;",
@@ -34,18 +38,15 @@ public class Intro extends JPanel {
           "  }",
           "}"
       };
-        Timer startCode = new Timer(500, (ActionEvent e) -> {
-
-          objs.add(new Text(new Vec2(0, yCounterWrapper[0]), codeLines[startCountWrapper[0]], new Color(255, 255, 0)));
-          yCounterWrapper[0] += objs.get(objs.size()-1).getSize().getY();
-          startCountWrapper[0]++;
-          if (startCountWrapper[0] >= codeLines.length)
-          {
-            startCode.stop();
-          }
-        });
-        startCode.start();
-
+        textLoop.scheduleAtFixedRate(() -> {
+            objs.add(new Text(new Vec2(0, yCounterWrapper[0]), codeLines[startCountWrapper[0]], new Color(255, 255, 0)));
+            yCounterWrapper[0] += objs.get(objs.size()-1).getSize().getY();
+            startCountWrapper[0]++;
+            if (startCountWrapper[0] >= codeLines.length)
+            {
+                textLoop.shutdown();
+            }
+        }, 500, 500, TimeUnit.MILLISECONDS);
       
     }
     
