@@ -16,13 +16,13 @@ public class Text extends GameObject {
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
-        g.drawString(text, getPos().getX(), getPos().getY() + getTextSize().getY());
+        g.drawString(text, getPos().getX(), getPos().getY() + getSize().getY());
     }
 
-    public Vec2 getTextSize() {
+    public Vec2 getSize() {
         Graphics2D g2d = (Graphics2D) new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).getGraphics();
 
-        // Get font metrics
+        // Get the default font metrics by for some reason creating a default buffered image and 
         FontMetrics fontMetrics = g2d.getFontMetrics();
         // Get height of text
         int textHeight = fontMetrics.getHeight();

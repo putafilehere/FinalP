@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
 public class Intro extends JPanel {
 
@@ -14,9 +15,40 @@ public class Intro extends JPanel {
         this.width = width;
         this.height = height;
         setBackground(new Color(50, 40, 45));
-        objs.add(new Text(new Vec2(0, 0), "import java.awt.*;", new Color(255, 255, 0)));
-    }
+      //these wrappers are necessary to make them "effectively" final
+        int[] yCounterWrapper = {0};
+        int[] startCountWrapper = {0};
+      String[] codeLines = {
+          "import java.awt.*;",
+          "import javax.swing.*;",
+          "class Main {",
+          "  public static void main(String[] args) {",
+          "    JFrame frame = new JFrame();",
+          "    Dimension size = Toolkit.getDefaultToolkit().getScreenSize();",
+          "    int width = (int)size.getWidth();",
+          "    int height = (int)size.getHeight();",
+          "    frame.setSize(width, height);",
+          "    JPanel panel = new JPanel();",
+          "    frame.add(panel);",
+          "    frame.setVisible(true);",
+          "  }",
+          "}"
+      };
+        Timer startCode = new Timer(500, (ActionEvent e) -> {
 
+          objs.add(new Text(new Vec2(0, yCounterWrapper[0]), codeLines[startCountWrapper[0]], new Color(255, 255, 0)));
+          yCounterWrapper[0] += objs.get(objs.size()-1).getSize().getY();
+          startCountWrapper[0]++;
+          if (startCountWrapper[0] >= codeLines.length)
+          {
+            startCode.stop();
+          }
+        });
+        startCode.start();
+
+      
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

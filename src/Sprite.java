@@ -26,7 +26,7 @@ public class Sprite extends GameObject{
     {
         return sprite;
     }
-
+    @Override
     public Vec2 getSize()
     {
         return size;

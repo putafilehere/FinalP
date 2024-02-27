@@ -34,5 +34,5 @@ public abstract class GameObject {
 
     public abstract void draw(Graphics g);
 
-
+    public abstract Vec2 getSize();
 }

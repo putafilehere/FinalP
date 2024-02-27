@@ -20,4 +20,10 @@ public class Rect extends GameObject {
         g.fillRect(getPos().getX(), getPos().getY(), size.getX(), size.getY());
     }
 
+    @Override
+    public Vec2 getSize()
+    {
+        return size;
+    }
+
 }
