@@ -47,6 +47,10 @@ public class Intro extends JPanel {
                 textLoop.shutdown();
             }
         }, 500, 500, TimeUnit.MILLISECONDS);
+        
+        objs.clear();
+
+        objs.add(new Rect());
       
     }
     
