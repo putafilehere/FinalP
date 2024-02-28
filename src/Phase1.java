@@ -13,12 +13,14 @@ public class Phase1 extends JPanel {
 
     private Sprite player;
 
+    private double funny = 0;
+
     // initialization of everything
     public Phase1(int width, int height) {
         this.width = width;
         this.height = height;
         setBackground(new Color(60, 50, 65));
-        player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100));
+        player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100), 45);
         objs.add(player);
         addKeyListener(new MyKeyListener());
         setFocusable(true); // Ensure the panel can receive key events
@@ -26,6 +28,7 @@ public class Phase1 extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        funny += 1;
         super.paintComponent(g);
         for (GameObject thing : objs) {
             if (pressedKeys.contains('w')) {
@@ -59,6 +62,7 @@ public class Phase1 extends JPanel {
             thing.setPos(new Vec2(xPos + xVel, yPos + yVel));
             thing.draw(g);
         }
+        player.setAngle(funny);
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {

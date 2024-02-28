@@ -8,7 +8,7 @@ public class Main {
 
         JFrame frame = new JFrame();
         frame.setSize(screenSize);
-        Intro intro = new Intro((int)screenSize.getWidth(), (int)screenSize.getHeight());
+        Phase1 intro = new Phase1((int)screenSize.getWidth(), (int)screenSize.getHeight());
         frame.add(intro);
         frame.setVisible(true);
     }

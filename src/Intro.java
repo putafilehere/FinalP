@@ -21,6 +21,7 @@ public class Intro extends JPanel {
       //these wrappers are necessary to make them "effectively" final
         int[] yCounterWrapper = {0};
         int[] startCountWrapper = {0};
+      //honestly i have no idea why it's like this, but it works
         ScheduledExecutorService textLoop = Executors.newScheduledThreadPool(1);
       String[] codeLines = {
           "import java.awt.*;",
@@ -39,7 +40,7 @@ public class Intro extends JPanel {
           "}"
       };
         textLoop.scheduleAtFixedRate(() -> {
-            objs.add(new Text(new Vec2(0, yCounterWrapper[0]), codeLines[startCountWrapper[0]], new Color(255, 255, 0)));
+            objs.add(new Text(new Vec2(0, yCounterWrapper[0]), codeLines[startCountWrapper[0]], new Color(255, 255, 0), 0));
             yCounterWrapper[0] += objs.get(objs.size()-1).getSize().getY();
             startCountWrapper[0]++;
             if (startCountWrapper[0] >= codeLines.length)
@@ -50,7 +51,7 @@ public class Intro extends JPanel {
         
         objs.clear();
 
-        objs.add(new Rect());
+        // objs.add(new Rect());
       
     }
     

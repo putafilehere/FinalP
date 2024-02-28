@@ -2,19 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 public class Sprite extends GameObject{
 
-    String sprite;
+    private String sprite;
 
-    Vec2 size;
+    private Vec2 size;
 
-    Image scaledImg;
+    private Image ogImg;
 
-    public Sprite(Vec2 pos, String sprite, Vec2 size)
+    private Image scaledImg;
+
+    public Sprite(Vec2 pos, String sprite, Vec2 size, double angle)
     {
-        super(pos);
+        super(pos, angle);
         this.sprite = sprite;
         this.size = size;
         ImageIcon img = new ImageIcon(sprite);
-        scaledImg= img.getImage().getScaledInstance(size.getX(), size.getY(), Image.SCALE_DEFAULT);
+        ogImg = img.getImage().getScaledInstance(size.getX(), size.getY(), Image.SCALE_DEFAULT);
+        scaledImg = RotateHelper.getRotatedInstance(ogImg, angle);
     }
 
     public void setSprite(String sprite)
@@ -31,10 +34,12 @@ public class Sprite extends GameObject{
     {
         return size;
     }
+
     //it makes a die.
     @Override
     public void draw(Graphics g)
     {
+        scaledImg = RotateHelper.getRotatedInstance(ogImg, getAngle());
         g.drawImage(scaledImg, getPos().getX(), getPos().getY(), null);
     }
     //that was a lie

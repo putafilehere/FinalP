@@ -6,9 +6,9 @@ public class Rect extends GameObject {
 
     private Color color;
 
-    public Rect(Vec2 size, Color color, Vec2 pos)
+    public Rect(Vec2 size, Color color, Vec2 pos, double angle)
     {
-        super(pos);
+        super(pos, angle);
         this.size = size;
         this.color = color;
     }

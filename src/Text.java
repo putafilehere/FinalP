@@ -7,8 +7,8 @@ public class Text extends GameObject {
     private String text;
     private Color color;
 
-    public Text(Vec2 pos, String text, Color color) {
-        super(pos);//i am magic
+    public Text(Vec2 pos, String text, Color color, double angle) {
+        super(pos, angle);//i am magic
         this.text = text;
         this.color = color;
     }
