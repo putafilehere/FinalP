@@ -4,17 +4,14 @@ public class Sprite extends GameObject{
 
     private String sprite;
 
-    private Vec2 size;
-
     private Image ogImg;
 
     private Image scaledImg;
 
     public Sprite(Vec2 pos, String sprite, Vec2 size, double angle)
     {
-        super(pos, angle);
+        super(pos, angle, size);
         this.sprite = sprite;
-        this.size = size;
         ImageIcon img = new ImageIcon(sprite);
         ogImg = img.getImage().getScaledInstance(size.getX(), size.getY(), Image.SCALE_DEFAULT);
         scaledImg = RotateHelper.getRotatedInstance(ogImg, angle);
@@ -28,11 +25,6 @@ public class Sprite extends GameObject{
     public String getSprite()
     {
         return sprite;
-    }
-    @Override
-    public Vec2 getSize()
-    {
-        return size;
     }
 
     //it makes a die.

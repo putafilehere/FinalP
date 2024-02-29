@@ -8,9 +8,10 @@ public class Text extends GameObject {
     private Color color;
 
     public Text(Vec2 pos, String text, Color color, double angle) {
-        super(pos, angle);//i am magic
+        super(pos, angle, new Vec2(0, 0));//i am magic
         this.text = text;
         this.color = color;
+        setSize(getSize());
     }
 
     @Override
@@ -18,7 +19,7 @@ public class Text extends GameObject {
         g.setColor(color);
         g.drawString(text, getPos().getX(), getPos().getY() + getSize().getY());
     }
-
+    @Override
     public Vec2 getSize() {
         Graphics2D g2d = (Graphics2D) new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).getGraphics();
 

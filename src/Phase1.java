@@ -20,7 +20,7 @@ public class Phase1 extends JPanel {
         this.width = width;
         this.height = height;
         setBackground(new Color(60, 50, 65));
-        player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100), 45);
+        player = new Sprite(new Vec2(0, 0), "images/hands/fist.png", new Vec2(100, 100), 45);
         objs.add(player);
         addKeyListener(new MyKeyListener());
         setFocusable(true); // Ensure the panel can receive key events

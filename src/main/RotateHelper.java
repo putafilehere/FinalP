@@ -14,8 +14,8 @@ public class RotateHelper
         tracker.addImage(image, 0);
 
         try {
-            // Wait until the image is fully loaded
-            tracker.waitForID(0);
+            // Wait for a maximum of 5 seconds for the image to load
+            tracker.waitForID(0, 5000);
         } catch (InterruptedException e) {
             // Handle interruption if needed
             e.printStackTrace();
@@ -34,15 +34,16 @@ public class RotateHelper
         // Calculate the bounding box of the rotated image
         Rectangle bounds = calculateBoundingBox(originalWidth, originalHeight, angleRadians);
 
-        // Create a BufferedImage to hold the rotated image
+        // Create a BufferedImage to hold the rotated image with transparency
         BufferedImage rotatedImage = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
 
         // Get the Graphics2D object to draw on the rotated image
         Graphics2D g2d = rotatedImage.createGraphics();
 
-        // Set the background color (optional)
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, bounds.width, bounds.height);
+        // Set the background color to transparent
+        rotatedImage = g2d.getDeviceConfiguration().createCompatibleImage(bounds.width, bounds.height, Transparency.TRANSLUCENT);
+        g2d.dispose();
+        g2d = rotatedImage.createGraphics();
 
         // Set the rotation transformation
         AffineTransform rotationTransform = new AffineTransform();
@@ -62,6 +63,8 @@ public class RotateHelper
         // Return the rotated image
         return rotatedImage;
     }
+
+
 
     private static Rectangle calculateBoundingBox(int width, int height, double angleRadians) {
         // Calculate the rotated bounding box
