@@ -50,8 +50,6 @@ public class Intro extends JPanel {
         }, 500, 500, TimeUnit.MILLISECONDS);
         
         objs.clear();
-
-        // objs.add(new Rect());
       
     }
     

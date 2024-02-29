@@ -13,7 +13,7 @@ public class Phase1 extends JPanel {
 
     private Sprite player;
 
-    private double funny = 0;
+    private Sprite bob;
 
     // initialization of everything
     public Phase1(int width, int height) {
@@ -22,13 +22,15 @@ public class Phase1 extends JPanel {
         setBackground(new Color(60, 50, 65));
         player = new Sprite(new Vec2(0, 0), "images/hands/fist.png", new Vec2(100, 100), 45);
         objs.add(player);
+        bob = new Sprite(new Vec2(100, 100), "images/hands/peace.png", new Vec2(200, 200), 130);
+        objs.add(bob);
         addKeyListener(new MyKeyListener());
         setFocusable(true); // Ensure the panel can receive key events
+
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        funny += 1;
         super.paintComponent(g);
         for (GameObject thing : objs) {
             if (pressedKeys.contains('w')) {
@@ -61,8 +63,11 @@ public class Phase1 extends JPanel {
             int xVel = thing.getVel().getX();
             thing.setPos(new Vec2(xPos + xVel, yPos + yVel));
             thing.draw(g);
+            for (GameObject other : objs)
+                if (other != thing)
+                    if (thing.isColliding(other))
+                        System.out.println("AHHH IM HURT");
         }
-        player.setAngle(funny);
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {

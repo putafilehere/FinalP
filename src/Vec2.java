@@ -73,4 +73,9 @@ public class Vec2 {
         return new Vec2(newX, newY);
     }
 
+    public Vec2 rotateAround(double angleInDegrees, Vec2 center) {
+        Vec2 relativePos = this.subtract(center);
+        return relativePos.rotate(angleInDegrees).add(center);
+    }
+
 }
