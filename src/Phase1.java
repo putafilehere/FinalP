@@ -15,6 +15,8 @@ public class Phase1 extends JPanel {
 
     private Sprite bob;
 
+    private double funny = 0;
+
     // initialization of everything
     public Phase1(int width, int height) {
         this.width = width;
@@ -31,6 +33,7 @@ public class Phase1 extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        funny += 0.01;
         super.paintComponent(g);
         for (GameObject thing : objs) {
             if (pressedKeys.contains('w')) {
@@ -67,6 +70,7 @@ public class Phase1 extends JPanel {
                 if (other != thing)
                     if (thing.isColliding(other))
                         System.out.println("AHHH IM HURT");
+            thing.setAngle((thing.getAngle()+funny)%360);
         }
         try {
             Thread.sleep(10);

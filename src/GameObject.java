@@ -58,55 +58,6 @@ public abstract class GameObject {
     }
 
     // Helper method to get corner points of the rectangle
-    private Vec2[] getCorners() {
-        int halfWidth = size.getX() / 2;
-        int halfHeight = size.getY() / 2;
-        Vec2[] corners = {
-                new Vec2(-halfWidth, -halfHeight),
-                new Vec2(-halfWidth, halfHeight),
-                new Vec2(halfWidth, halfHeight),
-                new Vec2(halfWidth, -halfHeight)
-        };
-
-        // Rotate corners around the center and add position
-        for (int i = 0; i < corners.length; i++) {
-            corners[i] = corners[i].rotateAround(angle, new Vec2(0, 0)).add(pos);
-        }
-        return corners;
-    }
 
 
-    public boolean isColliding(GameObject other) {
-        double newCoolAngle = Math.abs(angle - 90);
-        // create corner points for both rectangles
-        Vec2[] corners1 = getCorners();
-        Vec2[] corners2 = other.getCorners();
-        // check for intersection of edges of both rectangles
-        for (int i = 0; i < 4; i++) {
-            Vec2 currentEdge = corners1[(i + 1) % 4].subtract(corners1[i]);
-            // find the axis perpendicular to the edge
-            Vec2 axis = currentEdge.normal();
-            // rotate the axis by the angle of the first rectangle
-            axis = axis.rotate(newCoolAngle);
-            // project both rectangles onto the axis
-            double min1 = Double.MAX_VALUE, max1 = Double.MIN_VALUE;
-            double min2 = Double.MAX_VALUE, max2 = Double.MIN_VALUE;
-            for (Vec2 corner : corners1) {
-                double projection = corner.rotate(newCoolAngle).project(axis).dot(axis);
-                min1 = Math.min(min1, projection);
-                max1 = Math.max(max1, projection);
-            }
-            for (Vec2 corner : corners2) {
-                double projection = corner.rotate(Math.abs(other.getAngle()-90)).project(axis).dot(axis);
-                min2 = Math.min(min2, projection);
-                max2 = Math.max(max2, projection);
-            }
-            // check for overlap
-            if (max1 < min2 || max2 < min1) {
-                return false; // no overlap found, rectangles are not colliding
-            }
-            //otherwise, continue the loop for all four axes
-        }
-        return true; // overlap found on all axes, rectangles are colliding
-    }
 }
