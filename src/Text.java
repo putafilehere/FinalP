@@ -7,12 +7,16 @@ public class Text extends GameObject {
     private String text;
     private Color color;
 
-    public Text(Vec2 pos, String text, Color color, double angle) {
-        super(pos, angle, new Vec2(0, 0));//i am magic
+    public Text(Vec2 pos, String text, Color color, double angle, boolean isStatic) {
+        super(pos, angle, new Vec2(0, 0), isStatic);//i am magic
         this.text = text;
         this.color = color;
         setSize(getSize());
     }
+
+    public String getText() {return text;}
+
+    public void setText(String text) {this.text = text;}
 
     @Override
     public void draw(Graphics g) {

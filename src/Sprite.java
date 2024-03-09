@@ -8,9 +8,9 @@ public class Sprite extends GameObject{
 
     private Image scaledImg;
 
-    public Sprite(Vec2 pos, String sprite, Vec2 size, double angle)
+    public Sprite(Vec2 pos, String sprite, Vec2 size, double angle, boolean isStatic)
     {
-        super(pos, angle, size);
+        super(pos, angle, size, isStatic);
         this.sprite = sprite;
         ImageIcon img = new ImageIcon(sprite);
         ogImg = img.getImage().getScaledInstance(size.getX(), size.getY(), Image.SCALE_DEFAULT);
@@ -20,6 +20,9 @@ public class Sprite extends GameObject{
     public void setSprite(String sprite)
     {
         this.sprite = sprite;
+        ImageIcon img = new ImageIcon(sprite);
+        ogImg = img.getImage().getScaledInstance(getSize().getX(), getSize().getY(), Image.SCALE_DEFAULT);
+        scaledImg = RotateHelper.getRotatedInstance(ogImg, getAngle());
     }
 
     public String getSprite()

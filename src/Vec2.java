@@ -63,7 +63,16 @@ public class Vec2 {
         return new Vec2((int) (this.x * scalar), (int) (this.y * scalar));
     }
 
-  
+    public Vec2 unit() {
+        double magnitude = Math.sqrt(x * x + y * y);
+        if (magnitude == 0) {
+            return new Vec2(0, 0); // Prevent division by zero
+        }
+        return new Vec2((int) (x / magnitude), (int) (y / magnitude));
+    }
+
+
+
     public Vec2 rotate(double angleInDegrees) {
         double angleInRadians = Math.toRadians(angleInDegrees);
         double cosAngle = Math.cos(angleInRadians);
