@@ -3,7 +3,7 @@ public class Rect extends GameObject {
 
     private Color color;
 
-    public Rect(Vec2 size, Color color, Vec2 pos, double angle, boolean isStatic)
+    public Rect(Vec2 pos, Vec2 size, Color color, double angle, boolean isStatic)
     {
         super(pos, angle, size, isStatic);
         this.color = color;
@@ -13,7 +13,7 @@ public class Rect extends GameObject {
     public void draw(Graphics g)
     {
         g.setColor(color);
-        g.fillRect(getPos().getX(), getPos().getY(), getSize().getX(), getSize().getY());
+        g.fillRect((int)(getPos().getX()), (int)(getPos().getY()), (int)(getSize().getX()), (int)(getSize().getY()));
     }
 
 }

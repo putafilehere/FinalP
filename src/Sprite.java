@@ -13,7 +13,7 @@ public class Sprite extends GameObject{
         super(pos, angle, size, isStatic);
         this.sprite = sprite;
         ImageIcon img = new ImageIcon(sprite);
-        ogImg = img.getImage().getScaledInstance(size.getX(), size.getY(), Image.SCALE_DEFAULT);
+        ogImg = img.getImage().getScaledInstance((int)(size.getX()), (int)(size.getY()), Image.SCALE_DEFAULT);
         scaledImg = RotateHelper.getRotatedInstance(ogImg, angle);
     }
 
@@ -21,7 +21,7 @@ public class Sprite extends GameObject{
     {
         this.sprite = sprite;
         ImageIcon img = new ImageIcon(sprite);
-        ogImg = img.getImage().getScaledInstance(getSize().getX(), getSize().getY(), Image.SCALE_DEFAULT);
+        ogImg = img.getImage().getScaledInstance((int)(getSize().getX()), (int)(getSize().getY()), Image.SCALE_DEFAULT);
         scaledImg = RotateHelper.getRotatedInstance(ogImg, getAngle());
     }
 
@@ -35,7 +35,7 @@ public class Sprite extends GameObject{
     public void draw(Graphics g)
     {
         scaledImg = RotateHelper.getRotatedInstance(ogImg, getAngle());
-        g.drawImage(scaledImg, getPos().getX(), getPos().getY(), null);
+        g.drawImage(scaledImg, (int)(getPos().getX()), (int)(getPos().getY()), null);
     }
     //that was a lie
 }

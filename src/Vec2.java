@@ -1,33 +1,26 @@
 public class Vec2 {
 
-    private int x;
+    private double x;
+    private double y;
 
-    private int y;
-
-
-    public Vec2(int x, int y)
-    {
+    public Vec2(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX()
-    {
+    public double getX() {
         return x;
     }
 
-    public int getY()
-    {
+    public double getY() {
         return y;
     }
 
-    public void setX(int x)
-    {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public void setY(int y)
-    {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -42,7 +35,7 @@ public class Vec2 {
     }
 
     // Dot product of vectors
-    public int dot(Vec2 other) {
+    public double dot(Vec2 other) {
         return this.x * other.x + this.y * other.y;
     }
 
@@ -53,14 +46,14 @@ public class Vec2 {
 
     // Projection of the vector onto another vector
     public Vec2 project(Vec2 other) {
-        int dotProduct = dot(other);
-        int lengthSquared = other.dot(other);
-        return other.multiply(dotProduct / (double) lengthSquared);
+        double dotProduct = dot(other);
+        double lengthSquared = other.dot(other);
+        return other.multiply(dotProduct / lengthSquared);
     }
 
     // Scalar multiplication of the vector
     public Vec2 multiply(double scalar) {
-        return new Vec2((int) (this.x * scalar), (int) (this.y * scalar));
+        return new Vec2(this.x * scalar, this.y * scalar);
     }
 
     public Vec2 unit() {
@@ -68,17 +61,15 @@ public class Vec2 {
         if (magnitude == 0) {
             return new Vec2(0, 0); // Prevent division by zero
         }
-        return new Vec2((int) (x / magnitude), (int) (y / magnitude));
+        return new Vec2(x / magnitude, y / magnitude);
     }
-
-
 
     public Vec2 rotate(double angleInDegrees) {
         double angleInRadians = Math.toRadians(angleInDegrees);
         double cosAngle = Math.cos(angleInRadians);
         double sinAngle = Math.sin(angleInRadians);
-        int newX = (int) (x * cosAngle - y * sinAngle);
-        int newY = (int) (x * sinAngle + y * cosAngle);
+        double newX = x * cosAngle - y * sinAngle;
+        double newY = x * sinAngle + y * cosAngle;
         return new Vec2(newX, newY);
     }
 
@@ -87,4 +78,9 @@ public class Vec2 {
         return relativePos.rotate(angleInDegrees).add(center);
     }
 
+    @Override
+    public String toString()
+    {
+        return "X: " + x + "Y: " + y;
+    }
 }

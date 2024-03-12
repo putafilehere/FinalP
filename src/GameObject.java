@@ -13,6 +13,8 @@ public abstract class GameObject {
 
     private boolean isStatic;
 
+    private boolean friction;
+
     public GameObject(Vec2 pos, double angle, Vec2 size, boolean isStatic)
     {
         this.pos = pos;
@@ -39,6 +41,14 @@ public abstract class GameObject {
         return pos;
     }
 
+    public Vec2 middlePos() {
+        // Calculate the middle position using the object's position and size
+        int middleX = (int) (pos.getX() + size.getX() / 2);
+        int middleY = (int) (pos.getY() + size.getY() / 2);
+
+        return new Vec2(middleX, middleY);
+    }
+
     public Vec2 getVel() { return vel; }
 
     public double getAngle() { return angle; }
@@ -60,21 +70,30 @@ public abstract class GameObject {
       this.size = size;
     }
 
+    public boolean hasFriction() { return friction; }
+
     public boolean isStatic() { return isStatic; }
 
     public void setStatic(boolean isStatic) {this.isStatic = isStatic;}
     // Helper method to get corner points of the rectangle
+    public void setFriction(boolean friction) { this.friction = friction; }
 
     public boolean isColliding(GameObject other) {
-        int x1 = this.pos.getX();
-        int y1 = this.pos.getY();
-        int width1 = this.size.getX();
-        int height1 = this.size.getY();
-        int x2 = other.pos.getX();
-        int y2 = other.pos.getY();
-        int width2 = other.size.getX();
-        int height2 = other.size.getY();
+        int x1 = (int)(this.pos.getX());
+        int y1 = (int)(this.pos.getY());
+        int width1 = (int)(this.size.getX());
+        int height1 = (int)(this.size.getY());
+        int x2 = (int)(other.pos.getX());
+        int y2 = (int)(other.pos.getY());
+        int width2 = (int)(other.size.getX());
+        int height2 = (int)(other.size.getY());
         return x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && y1 + height1 > y2;
+    }
+
+    public boolean isHovered(Vec2 mouse)
+    {
+        return (mouse.getX() >= pos.getX() && mouse.getX() <= pos.getX() + size.getX() &&
+                mouse.getY() >= pos.getY() && mouse.getY() <= pos.getY() + size.getY());
     }
 
     public boolean isLeft(GameObject other, int tolerance) {

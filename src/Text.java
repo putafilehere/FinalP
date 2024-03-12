@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.image.BufferedImage; // Import BufferedImage class
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
 public class Text extends GameObject {
@@ -21,7 +24,7 @@ public class Text extends GameObject {
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
-        g.drawString(text, getPos().getX(), getPos().getY() + getSize().getY());
+        g.drawString(text, (int)(getPos().getX()), (int)(getPos().getY()) + (int)(getSize().getY()));
     }
     @Override
     public Vec2 getSize() {
@@ -39,5 +42,21 @@ public class Text extends GameObject {
         }
 
         return new Vec2(totalWidth, fontMetrics.getHeight());
+    }
+
+    public void timedText(String stringyThing, Runnable after)
+    {
+        ScheduledExecutorService textThing = Executors.newScheduledThreadPool(1);
+        int[] textCount = {0};
+        textThing.scheduleAtFixedRate(() -> {
+            if (textCount[0] < stringyThing.length()) {
+                setText(getText() + stringyThing.charAt(textCount[0]));
+                textCount[0]++;
+            } else
+            {
+                textThing.shutdown();
+                after.run();
+            }
+        }, 50, 50, TimeUnit.MILLISECONDS);
     }
 }
