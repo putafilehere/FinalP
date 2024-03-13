@@ -58,9 +58,9 @@
                 {
                     oneTruck.addVel(new Vec2(-50, 0));
                 }
-                if (oneTruck.isColliding(npcHam)) {
+                if (/*oneTruck.isColliding(npcHam)*/true) {
                     //body parts declaration
-                    Sprite lLeg = new Sprite(new Vec2(width/3-100, height/2), "images/shadder/leftLeg.png", new Vec2(10, 30), 0, true);
+                    Sprite lLeg = new Sprite(new Vec2(width/3-100, height/2), "images/shadder/truck.png", new Vec2(10, 30), 0, true);
                     lLeg.setFriction(true);
                     Sprite rLeg = new Sprite(new Vec2(width/3+100, height/2), "images/shadder/rightLeg.png", new Vec2(10, 30), 0, true);
                     rLeg.setFriction(true);
@@ -72,7 +72,7 @@
                     chest.setFriction(true);
                     Sprite head = new Sprite(new Vec2(width/3+200, height/2), "images/shadder/head.png", new Vec2(30, 50), 0, true);
                     head.setFriction(true);
-                    pogressBar = new Rect(new Vec2(0, height - 200), new Vec2(5, 200), new Color(0, 0, 0), 0, false);
+                    pogressBar = new Rect(new Vec2(50, height - 200), new Vec2(0, 100), new Color(0, 200, 0), 0, false);
                     objs.remove(npcHam);
                     objs.add(lLeg);
                     objs.add(rLeg);
@@ -80,6 +80,7 @@
                     objs.add(rArm);
                     objs.add(chest);
                     objs.add(head);
+                    objs.add(pogressBar);
                     allDone[1] = true;
                     truckThing.shutdown();
                 }
@@ -277,6 +278,13 @@
                     timer.stop();
                     // Remove the temporary mouse listener
                     removeMouseListener(this);
+                    if (currentItemHeld != null) {
+                        Vec2 mousePos = new Vec2(e.getX(), e.getY());
+                        Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
+                        currentItemHeld.addVel(playerToMouse.multiply(pogressBar.getSize().getX()/50.0));
+                        currentItemHeld = null;
+                    }
+                    pogressBar.setSize(new Vec2(0, pogressBar.getSize().getY()));
                 }
             });
         }
@@ -284,12 +292,7 @@
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            if (currentItemHeld != null) {
-                Vec2 mousePos = new Vec2(e.getX(), e.getY());
-                Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
-                currentItemHeld.addVel(playerToMouse.multiply(5));
-                currentItemHeld = null;
-            }
+
         }
 
         @Override
