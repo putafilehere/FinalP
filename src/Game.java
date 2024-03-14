@@ -58,15 +58,15 @@
                 {
                     oneTruck.addVel(new Vec2(-50, 0));
                 }
-                if (/*oneTruck.isColliding(npcHam)*/true) {
+                if (oneTruck.isColliding(npcHam)) {
                     //body parts declaration
-                    Sprite lLeg = new Sprite(new Vec2(width/3-100, height/2), "images/shadder/truck.png", new Vec2(10, 30), 0, true);
+                    Sprite lLeg = new Sprite(new Vec2(width/3.0-100, height/2.0), "images/shadder/truck.png", new Vec2(10, 30), 0, true);
                     lLeg.setFriction(true);
-                    Sprite rLeg = new Sprite(new Vec2(width/3+100, height/2), "images/shadder/rightLeg.png", new Vec2(10, 30), 0, true);
+                    Sprite rLeg = new Sprite(new Vec2(width/3.0+100, height/2.0), "images/shadder/rightLeg.png", new Vec2(10, 30), 0, true);
                     rLeg.setFriction(true);
-                    Sprite lArm = new Sprite(new Vec2(width/3, height/2-100), "images/shadder/leftArm.png", new Vec2(10, 30), 0, true);
+                    Sprite lArm = new Sprite(new Vec2(width/3.0, height/2.0-100), "images/shadder/leftArm.png", new Vec2(10, 30), 0, true);
                     lArm.setFriction(true);
-                    Sprite rArm = new Sprite(new Vec2(width/3, height/2+100), "images/shadder/rightArm.png", new Vec2(10, 30), 0, true);
+                    Sprite rArm = new Sprite(new Vec2(width/3.0, height/2.0+100), "images/shadder/rightArm.png", new Vec2(10, 30), 0, true);
                     rArm.setFriction(true);
                     Sprite chest = new Sprite(new Vec2(width/3-200, height/2), "images/shadder/chest.png", new Vec2(50, 50), 0, true);
                     chest.setFriction(true);
