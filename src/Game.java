@@ -41,7 +41,7 @@
             objs.add(oneTruck);
             //wrappa
             boolean[] allDone = {false, false};
-            String stringyThing = "Yo dude, I got them goods...";
+            String stringyThing = "pick up stuff with E and your mouse";
 
             Text dealerText = new Text(new Vec2(npcHam.getPos().getX()-100, npcHam.getPos().getY()-50), "", new Color(200, 0, 50), 0, false);
 
@@ -49,42 +49,11 @@
 
             dealerText.timedText(stringyThing, () -> {
                 allDone[0] = true;
+                Sprite obj1 = new Sprite(new Vec2(randInt(0, width), randInt(0, height)), "images/maxwell.jpeg", new Vec2(50, 50), 0, true);
             });
 
-
-            ScheduledExecutorService truckThing = Executors.newScheduledThreadPool(1);
-            truckThing.scheduleAtFixedRate(() -> {
-                if (allDone[0] && oneTruck.getVel().getX() != -50)
-                {
-                    oneTruck.addVel(new Vec2(-50, 0));
-                }
-                if (oneTruck.isColliding(npcHam)) {
-                    //body parts declaration
-                    Sprite lLeg = new Sprite(new Vec2(width/3.0-100, height/2.0), "images/shadder/truck.png", new Vec2(10, 30), 0, true);
-                    lLeg.setFriction(true);
-                    Sprite rLeg = new Sprite(new Vec2(width/3.0+100, height/2.0), "images/shadder/rightLeg.png", new Vec2(10, 30), 0, true);
-                    rLeg.setFriction(true);
-                    Sprite lArm = new Sprite(new Vec2(width/3.0, height/2.0-100), "images/shadder/leftArm.png", new Vec2(10, 30), 0, true);
-                    lArm.setFriction(true);
-                    Sprite rArm = new Sprite(new Vec2(width/3.0, height/2.0+100), "images/shadder/rightArm.png", new Vec2(10, 30), 0, true);
-                    rArm.setFriction(true);
-                    Sprite chest = new Sprite(new Vec2(width/3-200, height/2), "images/shadder/chest.png", new Vec2(50, 50), 0, true);
-                    chest.setFriction(true);
-                    Sprite head = new Sprite(new Vec2(width/3+200, height/2), "images/shadder/head.png", new Vec2(30, 50), 0, true);
-                    head.setFriction(true);
-                    pogressBar = new Rect(new Vec2(50, height - 200), new Vec2(0, 100), new Color(0, 200, 0), 0, false);
-                    objs.remove(npcHam);
-                    objs.add(lLeg);
-                    objs.add(rLeg);
-                    objs.add(lArm);
-                    objs.add(rArm);
-                    objs.add(chest);
-                    objs.add(head);
-                    objs.add(pogressBar);
-                    allDone[1] = true;
-                    truckThing.shutdown();
-                }
-            }, 100, 100, TimeUnit.MILLISECONDS);
+            pogressBar = new Rect(new Vec2(50, height - 200), new Vec2(0, 100), new Color(0, 200, 0), 0, false);
+            objs.add(pogressBar);
 
 
             setFocusable(true); // Allow panel to get focus for key events
@@ -211,6 +180,11 @@
             }
 
             repaint();
+        }
+
+        public int randInt(int min, int max)
+        {
+            return (int) (Math.random() * (max - min + 1)) + min;
         }
 
 
