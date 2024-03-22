@@ -17,109 +17,22 @@
         private ArrayList<GameObject> objs = new ArrayList<>();
         private Set<Character> keys = new HashSet<>();
 
-        private GameObject currentItemHeld = null;
-
         private Vec2 mouse = null;
 
         private Sprite player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100), 0, false);
-
-        private Rect pogressBar;
-
         public Game(int width, int height) {
             this.width = width;
             this.height = height;
             setBackground(new Color(50, 40, 45));
 
             //cutscene
-            player.setPos(new Vec2(width/3, height/4));
+            player.setPos(new Vec2(width / 2-player.getSize().getX(), height / 2-player.getSize().getY()));
             objs.add(player);
-            Sprite npcHam = new Sprite(new Vec2(width/3, height/2), "images/shaddy.png", new Vec2(70, 100), 0, true);
-            objs.add(npcHam);
-
-            Sprite oneTruck = new Sprite(new Vec2(width, height/2), "images/truck.png", new Vec2(1000, 300), 0, false);
-
-            objs.add(oneTruck);
             //wrappa
-            boolean[] allDone = {false, false};
-            String stringyThing = "pick up stuff with E and your mouse";
-
-            Text dealerText = new Text(new Vec2(npcHam.getPos().getX()-100, npcHam.getPos().getY()-50), "", new Color(200, 0, 50), 0, false);
-
-            objs.add(dealerText);
-
-            dealerText.timedText(stringyThing, () -> {
-                allDone[0] = true;
-                Sprite obj1 = new Sprite(new Vec2(randInt(0, width), randInt(0, height)), "images/maxwell.jpeg", new Vec2(50, 50), 0, true);
-            });
-
-            pogressBar = new Rect(new Vec2(50, height - 200), new Vec2(0, 100), new Color(0, 200, 0), 0, false);
-            objs.add(pogressBar);
-
-
             setFocusable(true); // Allow panel to get focus for key events
             addKeyListener(this); // Add key listener to the panel
             addMouseMotionListener(this); // Add mouse motion listener to the panel
             addMouseListener(this); //add moose mistener
-
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            final int speed = 10;
-            scheduler.scheduleAtFixedRate(() -> {
-                //player movement
-                if (allDone[1]) {
-                    player.setStatic(true);
-                    if (keys.contains('w')) {
-                        player.setVel(new Vec2(player.getVel().getX(), -speed));
-                    } else if (player.getVel().getY() == -speed) {
-                        player.setVel(new Vec2(player.getVel().getX(), 0));
-                    }
-                    if (keys.contains('a')) {
-                        player.setVel(new Vec2(-speed, player.getVel().getY()));
-                    } else if (player.getVel().getX() == -speed) {
-                        player.setVel(new Vec2(0, player.getVel().getY()));
-                    }
-                    if (keys.contains('s')) {
-                        player.setVel(new Vec2(player.getVel().getX(), speed));
-                    } else if (player.getVel().getY() == speed) {
-                        player.setVel(new Vec2(player.getVel().getX(), 0));
-                    }
-                    if (keys.contains('d')) {
-                        player.setVel(new Vec2(speed, player.getVel().getY()));
-                    } else if (player.getVel().getX() == speed) {
-                        player.setVel(new Vec2(0, player.getVel().getY()));
-                    }
-                    if (keys.contains('e'))
-                    {
-                        System.out.println("thing go brrr");
-                        GameObject randoShmando = null;
-                        for (GameObject object : objs)
-                            if (object.isHovered(mouse))
-                                randoShmando = object;
-                        if (randoShmando == null || randoShmando == currentItemHeld)
-                            currentItemHeld = null;
-                        else
-                            currentItemHeld = randoShmando;
-                        keys.remove('e');
-                    }
-                    if (currentItemHeld != null && mouse != null) {
-                        // Calculate the direction vector from the player's middle position to the mouse
-                        Vec2 playerToMouse = mouse.subtract(player.middlePos()).unit();
-
-                        // Set the distance you want the held item to be from the player
-                        double distance = 150; // Adjust this value as needed
-
-                        // Calculate the position of the held item based on the player's middle position and the direction vector
-                        int newX = (int) (player.middlePos().getX() + playerToMouse.getX() * distance);
-                        int newY = (int) (player.middlePos().getY() + playerToMouse.getY() * distance);
-
-                        // Set the position of currentItemHeld
-                        currentItemHeld.getPos().setX(newX);
-                        currentItemHeld.getPos().setY(newY);
-                    }
-
-
-
-                }
-            }, 10, 10, TimeUnit.MILLISECONDS);
         }
 
         @Override
@@ -158,12 +71,6 @@
                             }
                         }
                     }
-                }
-                if (thing.hasFriction()) {
-                    double frictionValue = 0.05;
-                    double newVelX = thing.getVel().getX() > 0 ? thing.getVel().getX() - frictionValue : thing.getVel().getX() + frictionValue;
-                    double newVelY = thing.getVel().getY() > 0 ? thing.getVel().getY() - frictionValue : thing.getVel().getY() + frictionValue;
-                    thing.setVel(new Vec2(newVelX, newVelY));
                 }
                 int yPos = (int)(thing.getPos().getY());
                 int yVel = (int)(thing.getVel().getY());
@@ -231,36 +138,12 @@
 
         @Override
         public void mousePressed(MouseEvent e) {
-            // Start a Swing Timer to continuously increase the progress bar size
-            Timer timer = new Timer(50, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    // Update the progress bar size
-                    pogressBar.setSize(pogressBar.getSize().add(new Vec2(5, 0)));
-                    // Repaint the panel to reflect the changes
-                    repaint();
-                }
-            });
-            // Start the timer
-            timer.start();
-
-            // Add a mouse listener to detect when the left mouse button is released
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    // Stop the timer when the left mouse button is released
-                    timer.stop();
-                    // Remove the temporary mouse listener
-                    removeMouseListener(this);
-                    if (currentItemHeld != null) {
-                        Vec2 mousePos = new Vec2(e.getX(), e.getY());
-                        Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
-                        currentItemHeld.addVel(playerToMouse.multiply(pogressBar.getSize().getX()/50.0));
-                        currentItemHeld = null;
-                    }
-                    pogressBar.setSize(new Vec2(0, pogressBar.getSize().getY()));
-                }
-            });
+            Vec2 mousePos = new Vec2(e.getX(), e.getY());
+            Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
+            Rect newProj = new Rect(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 0, true);
+            newProj.addVel(playerToMouse.multiply(10.0));
+            objs.add(newProj);
+            System.out.println("hi");
         }
 
 
