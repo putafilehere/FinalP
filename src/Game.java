@@ -95,6 +95,13 @@
         }
 
 
+        public void spawnEnemy()
+        {
+            Sprite enemy = new Sprite(new Vec2(randInt(0, width), randInt(0, height)), "images/shaddy.png", new Vec2(100, 100), 0, false);
+
+        }
+
+
 
         @Override
         public void keyPressed(KeyEvent e) {
