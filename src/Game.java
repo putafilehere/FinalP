@@ -78,6 +78,10 @@
                 int xVel = (int)(thing.getVel().getX());
                 thing.setPos(new Vec2(xPos + xVel, yPos + yVel));
                 thing.draw(g);
+                if (thing.isOffscreen(width, height))
+                    objs.remove(thing);
+                else
+                    thing.draw(g);
             }
 
             try {
@@ -95,11 +99,44 @@
         }
 
 
-        public void spawnEnemy()
-        {
-            Sprite enemy = new Sprite(new Vec2(randInt(0, width), randInt(0, height)), "images/shaddy.png", new Vec2(100, 100), 0, false);
+        public void spawnEnemy() {
+            // Debugging statement to ensure the method is called
+            System.out.println("Spawning enemy...");
 
+            // Randomly determine which edge the enemy should spawn on
+            int edge = randInt(0, 3); // 0: top, 1: right, 2: bottom, 3: left
+
+            int x = 0, y = 0;
+
+            // Set initial position based on the chosen edge
+            switch (edge) {
+                case 0: // Top edge
+                    x = randInt(0, width);
+                    y = 0;
+                    break;
+                case 1: // Right edge
+                    x = width;
+                    y = randInt(0, height);
+                    break;
+                case 2: // Bottom edge
+                    x = randInt(0, width);
+                    y = height;
+                    break;
+                case 3: // Left edge
+                    x = 0;
+                    y = randInt(0, height);
+                    break;
+            }
+
+            Vec2 posVec = new Vec2(x, y);
+            Vec2 center = new Vec2(width / 2.0, height / 2.0);
+            Sprite enemy = new Sprite(posVec, "images/shaddy.png", new Vec2(100, 100), 0, false);
+            Vec2 directionToCenter = center.subtract(enemy.middlePos()).unit();
+            enemy.addVel(directionToCenter.multiply(5));
+
+            objs.add(enemy);
         }
+
 
 
 
@@ -109,6 +146,8 @@
             keys.add(e.getKeyChar());
             // Handle any actions related to the pressed key
             // For example, move a player object based on key presses
+            if (e.getKeyChar() == 'e')
+                spawnEnemy();
         }
 
         @Override

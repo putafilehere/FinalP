@@ -90,6 +90,11 @@ public abstract class GameObject {
         return x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && y1 + height1 > y2;
     }
 
+    public boolean isOffscreen(int width, int height)
+    {
+        return pos.getX() > width || pos.getX() < 0 - size.getX() || pos.getY() > height || pos.getY() < 0 - size.getY();
+    }
+
     public boolean isHovered(Vec2 mouse)
     {
         return (mouse.getX() >= pos.getX() && mouse.getX() <= pos.getX() + size.getX() &&
