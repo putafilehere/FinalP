@@ -17,6 +17,10 @@
         private ArrayList<GameObject> objs = new ArrayList<>();
         private Set<Character> keys = new HashSet<>();
 
+        private Set<Sprite> enemies = new HashSet<>();
+
+        private Set<Rect> projectiles = new HashSet<>();
+
         private Vec2 mouse = null;
 
         private Sprite player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100), 0, false);
@@ -44,6 +48,9 @@
             for (GameObject thing : objectsToPaint) {
                 if (thing.isStatic()) {
                     for (GameObject thing2 : objs) {
+                        if (enemies.contains(thing) && projectiles.contains(thing2))
+                            if (thing.isColliding(thing2))
+
                         if (thing2.isStatic() && thing != thing2 && thing.isColliding(thing2)) {
                             //collision resolving
                             final int errorMargin = 5; // Adjust this value according to your needs
@@ -82,6 +89,8 @@
                     objs.remove(thing);
                 else
                     thing.draw(g);
+
+
             }
 
             try {
@@ -134,7 +143,9 @@
             Vec2 directionToCenter = center.subtract(enemy.middlePos()).unit();
             enemy.addVel(directionToCenter.multiply(5));
 
+            enemies.add(enemy);
             objs.add(enemy);
+
         }
 
 
