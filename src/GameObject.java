@@ -15,6 +15,8 @@ public abstract class GameObject {
 
     private boolean friction;
 
+    private ArrayList<String> tags;
+
     public GameObject(Vec2 pos, double angle, Vec2 size, boolean isStatic)
     {
         this.pos = pos;
@@ -24,10 +26,25 @@ public abstract class GameObject {
         this.vel = new Vec2(0, 0);
     }
 
+    public boolean hasTag(String target)
+    {
+        for (String tag : tags)
+        {
+            if (tag.equals(target))
+                return true;
+        }
+        return false;
+    }
+
     public void addVel(Vec2 newVel)
     {
         vel.setX(vel.getX()+newVel.getX());
         vel.setY(vel.getY()+newVel.getY());
+    }
+
+    public void addTag(String tag)
+    {
+        tags.add(tag);
     }
 
     public void setVel(Vec2 newVel)

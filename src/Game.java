@@ -17,10 +17,6 @@
         private ArrayList<GameObject> objs = new ArrayList<>();
         private Set<Character> keys = new HashSet<>();
 
-        private Set<Sprite> enemies = new HashSet<>();
-
-        private Set<Rect> projectiles = new HashSet<>();
-
         private Vec2 mouse = null;
 
         private Sprite player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100), 0, false);
@@ -45,14 +41,23 @@
 
             ArrayList<GameObject> objectsToPaint = new ArrayList<>(objs);
 
-            for (GameObject thing : objectsToPaint) {
+            for (GameObject thing : objectsToPaint) painting: {
                 if (thing.isStatic()) {
                     for (GameObject thing2 : objs) {
-                        if (enemies.contains(thing) && projectiles.contains(thing2))
-                            if (thing.isColliding(thing2))
+                        if ((thing.hasTag("enemy") && thing2.hasTag("enemy")) || (thing.hasTag("projectile") && thing2.hasTag("enemy"))) {
+                            if (thing.isColliding(thing2)) {
+                                objs.remove(thing);
+                                objs.remove(thing2);
+                                System.out.println("DIE!");
+                                break painting;
+                                //skip a frame to avoid errors, maybe bad coding practice
+                            }
+                        }
+
 
                         if (thing2.isStatic() && thing != thing2 && thing.isColliding(thing2)) {
                             //collision resolving
+
                             final int errorMargin = 5; // Adjust this value according to your needs
 
                             // Calculate the overlap along each axis
@@ -142,8 +147,6 @@
             Sprite enemy = new Sprite(posVec, "images/shaddy.png", new Vec2(100, 100), 0, false);
             Vec2 directionToCenter = center.subtract(enemy.middlePos()).unit();
             enemy.addVel(directionToCenter.multiply(5));
-
-            enemies.add(enemy);
             objs.add(enemy);
 
         }
