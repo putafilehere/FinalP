@@ -44,7 +44,7 @@
             for (GameObject thing : objectsToPaint) painting: {
                 if (thing.isStatic()) {
                     for (GameObject thing2 : objs) {
-                        if ((thing.hasTag("enemy") && thing2.hasTag("enemy")) || (thing.hasTag("projectile") && thing2.hasTag("enemy"))) {
+                        if ((thing.hasTag("enemy") && thing2.hasTag("projectile")) || (thing.hasTag("projectile") && thing2.hasTag("enemy"))) {
                             if (thing.isColliding(thing2)) {
                                 objs.remove(thing);
                                 objs.remove(thing2);
@@ -145,6 +145,7 @@
             Vec2 posVec = new Vec2(x, y);
             Vec2 center = new Vec2(width / 2.0, height / 2.0);
             Sprite enemy = new Sprite(posVec, "images/shaddy.png", new Vec2(100, 100), 0, false);
+            enemy.addTag("enemy");
             Vec2 directionToCenter = center.subtract(enemy.middlePos()).unit();
             enemy.addVel(directionToCenter.multiply(5));
             objs.add(enemy);
@@ -201,9 +202,9 @@
             Vec2 mousePos = new Vec2(e.getX(), e.getY());
             Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
             Rect newProj = new Rect(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 0, true);
+            newProj.addTag("projectile");
             newProj.addVel(playerToMouse.multiply(10.0));
             objs.add(newProj);
-            System.out.println("hi");
         }
 
 

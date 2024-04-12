@@ -15,7 +15,7 @@ public abstract class GameObject {
 
     private boolean friction;
 
-    private ArrayList<String> tags;
+    private ArrayList<String> tags = new ArrayList<>();
 
     public GameObject(Vec2 pos, double angle, Vec2 size, boolean isStatic)
     {
@@ -98,12 +98,16 @@ public abstract class GameObject {
     public boolean isColliding(GameObject other) {
         int x1 = (int)(this.pos.getX());
         int y1 = (int)(this.pos.getY());
+
         int width1 = (int)(this.size.getX());
         int height1 = (int)(this.size.getY());
+
         int x2 = (int)(other.pos.getX());
         int y2 = (int)(other.pos.getY());
+
         int width2 = (int)(other.size.getX());
         int height2 = (int)(other.size.getY());
+
         return x1 < x2 + width2 && x1 + width1 > x2 && y1 < y2 + height2 && y1 + height1 > y2;
     }
 
