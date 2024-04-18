@@ -15,6 +15,8 @@ public abstract class GameObject {
 
     private boolean friction;
 
+    private int index;
+
     private ArrayList<String> tags = new ArrayList<>();
 
     public GameObject(Vec2 pos, double angle, Vec2 size, boolean isStatic)
@@ -46,6 +48,10 @@ public abstract class GameObject {
     {
         tags.add(tag);
     }
+
+    public void setIndex(int index){this.index = index;}
+
+    public int getIndex(){return index;}
 
     public void setVel(Vec2 newVel)
     {

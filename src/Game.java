@@ -46,9 +46,27 @@
                     for (GameObject thing2 : objs) {
                         if ((thing.hasTag("enemy") && thing2.hasTag("projectile")) || (thing.hasTag("projectile") && thing2.hasTag("enemy"))) {
                             if (thing.isColliding(thing2)) {
-                                objs.remove(thing);
-                                objs.remove(thing2);
-                                System.out.println("DIE!");
+                                if (thing instanceof Enemy)
+                                {
+                                    System.out.println("Projectile health: " + ((Projectile)thing2).getHealth());
+                                    System.out.println("Enemy health: " + ((Enemy)thing).getHealth());
+                                    ((Enemy)thing).setHealth(((Enemy)thing).getHealth()-1);
+                                    ((Projectile)thing2).setHealth(((Projectile)thing2).getHealth()-1);
+                                    System.out.println("HIT");
+                                    if (((Enemy)thing).getHealth() <= 0)
+                                        objs.remove(thing);
+                                    if (((Projectile)thing2).getHealth() <= 0)
+                                        objs.remove(thing2);
+                                } else {
+                                    ((Enemy)thing2).setHealth(((Enemy)thing2).getHealth()-1);
+                                    ((Projectile)thing).setHealth(((Projectile)thing).getHealth()-1);
+                                    if (((Enemy)thing2).getHealth() <= 0)
+                                        objs.remove(thing2);
+                                    if (((Projectile)thing).getHealth() <= 0)
+                                        objs.remove(thing);
+                                    System.out.println("HIT");
+                                }
+                                System.out.println("collision!");
                                 break painting;
                                 //skip a frame to avoid errors, maybe bad coding practice
                             }
@@ -69,6 +87,7 @@
                             if (overlapX < overlapY) {
                                 // Adjust horizontally
                                 if (thing.getPos().getX() < thing2.getPos().getX()) {
+                                    thing.setPos(new Vec2(thing.getPos().getX() - overlapX - errorMargin, thing.getPos().getY()));
                                     thing.setPos(new Vec2(thing.getPos().getX() - overlapX - errorMargin, thing.getPos().getY()));
                                 } else {
                                     thing.setPos(new Vec2(thing.getPos().getX() + overlapX + errorMargin, thing.getPos().getY()));
@@ -116,40 +135,9 @@
         public void spawnEnemy() {
             // Debugging statement to ensure the method is called
             System.out.println("Spawning enemy...");
-
-            // Randomly determine which edge the enemy should spawn on
-            int edge = randInt(0, 3); // 0: top, 1: right, 2: bottom, 3: left
-
-            int x = 0, y = 0;
-
-            // Set initial position based on the chosen edge
-            switch (edge) {
-                case 0: // Top edge
-                    x = randInt(0, width);
-                    y = 0;
-                    break;
-                case 1: // Right edge
-                    x = width;
-                    y = randInt(0, height);
-                    break;
-                case 2: // Bottom edge
-                    x = randInt(0, width);
-                    y = height;
-                    break;
-                case 3: // Left edge
-                    x = 0;
-                    y = randInt(0, height);
-                    break;
-            }
-
-            Vec2 posVec = new Vec2(x, y);
-            Vec2 center = new Vec2(width / 2.0, height / 2.0);
-            Sprite enemy = new Sprite(posVec, "images/shaddy.png", new Vec2(100, 100), 0, false);
+            Enemy enemy = new Enemy("images/shaddy.png", new Vec2(100, 100), false, 2, width, height);
             enemy.addTag("enemy");
-            Vec2 directionToCenter = center.subtract(enemy.middlePos()).unit();
-            enemy.addVel(directionToCenter.multiply(5));
             objs.add(enemy);
-
         }
 
 
@@ -170,6 +158,7 @@
             // Remove the released key from the keys set
             keys.remove(e.getKeyChar());
             // Handle any actions related to the released key
+
         }
 
         @Override
@@ -186,10 +175,9 @@
         }
 
         @Override
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDragged(MouseEvent e)
+        {
 
-            mouse = new Vec2(e.getX(), e.getY());
-            // This method is not used in this example
         }
 
         @Override
@@ -199,10 +187,10 @@
 
         @Override
         public void mousePressed(MouseEvent e) {
+            mouse = new Vec2(e.getX(), e.getY());
             Vec2 mousePos = new Vec2(e.getX(), e.getY());
             Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
-            Rect newProj = new Rect(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 0, true);
-            newProj.addTag("projectile");
+            Projectile newProj = new Projectile(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 1);
             newProj.addVel(playerToMouse.multiply(10.0));
             objs.add(newProj);
         }
