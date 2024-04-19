@@ -1,11 +1,14 @@
 public class Enemy extends Sprite {
 
     int health;
-    public Enemy(String sprite, Vec2 size, boolean isStatic, int health, int width, int height)
+
+    Runnable onDeath;
+    public Enemy(String sprite, Vec2 size, boolean isStatic, int health, int width, int height, Runnable onDeath)
     {
         super(new Vec2(0, 0), sprite, size, 0, isStatic);
         int edge = randInt(0, 3); // 0: top, 1: right, 2: bottom, 3: left
-
+        this.health = health;
+        this.onDeath = onDeath;
         int x = 0, y = 0;
 
         // Set initial position based on the chosen edge
@@ -49,5 +52,16 @@ public class Enemy extends Sprite {
     public void setHealth(int health)
     {
         this.health = health;
+    }
+
+    public void subHealth(int health)
+    {
+        this.health -= health;
+    }
+
+    public void death()
+    {
+        if (onDeath != null)
+            onDeath.run();
     }
 }

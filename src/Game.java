@@ -19,7 +19,17 @@
 
         private Vec2 mouse = null;
 
-        private Sprite player = new Sprite(new Vec2(0, 0), "images/maxwell.jpeg", new Vec2(100, 100), 0, false);
+        private Enemy[] enemyPrefabs = {
+                new Enemy("images/slime.png", new Vec2(50, 40), false, 1, width, height, null),
+                new Enemy("images/skelebones.png", new Vec2(30, 80), false, 2, width, height, null),
+                new Enemy("images/motherslime.png", new Vec2(80, 60), false, 2, width, height, () -> {spawnEnemy(0, 3)})
+        };
+
+        private Enemy[][] waves = {
+                {}
+        };
+
+        private Sprite player = new Sprite(new Vec2(0, 0), "images/guy.png", new Vec2(90, 150), 0, false);
         public Game(int width, int height) {
             this.width = width;
             this.height = height;
@@ -53,16 +63,16 @@
                                     ((Enemy)thing).setHealth(((Enemy)thing).getHealth()-1);
                                     ((Projectile)thing2).setHealth(((Projectile)thing2).getHealth()-1);
                                     System.out.println("HIT");
-                                    if (((Enemy)thing).getHealth() <= 0)
+                                    if (((Enemy)thing).getHealth() == 0)
                                         objs.remove(thing);
-                                    if (((Projectile)thing2).getHealth() <= 0)
+                                    if (((Projectile)thing2).getHealth() == 0)
                                         objs.remove(thing2);
                                 } else {
                                     ((Enemy)thing2).setHealth(((Enemy)thing2).getHealth()-1);
                                     ((Projectile)thing).setHealth(((Projectile)thing).getHealth()-1);
-                                    if (((Enemy)thing2).getHealth() <= 0)
+                                    if (((Enemy)thing2).getHealth() == 0)
                                         objs.remove(thing2);
-                                    if (((Projectile)thing).getHealth() <= 0)
+                                    if (((Projectile)thing).getHealth() == 0)
                                         objs.remove(thing);
                                     System.out.println("HIT");
                                 }
@@ -132,10 +142,10 @@
         }
 
 
-        public void spawnEnemy() {
+        public void spawnEnemy(int index, int count) {
             // Debugging statement to ensure the method is called
             System.out.println("Spawning enemy...");
-            Enemy enemy = new Enemy("images/shaddy.png", new Vec2(100, 100), false, 2, width, height);
+            Enemy enemy = new Enemy("images/shaddy.png", new Vec2(100, 100), false, 2, width, height, null);
             enemy.addTag("enemy");
             objs.add(enemy);
         }
@@ -190,7 +200,7 @@
             mouse = new Vec2(e.getX(), e.getY());
             Vec2 mousePos = new Vec2(e.getX(), e.getY());
             Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
-            Projectile newProj = new Projectile(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 1);
+            Projectile newProj = new Projectile(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 3);
             newProj.addVel(playerToMouse.multiply(10.0));
             objs.add(newProj);
         }

@@ -21,4 +21,8 @@ public class Projectile extends Rect {
     {
         this.health = health;
     }
+    public void subHealth(int health)
+    {
+        this.health -= health;
+    }
 }
