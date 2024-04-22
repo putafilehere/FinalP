@@ -3,7 +3,7 @@ public class Enemy extends Sprite {
     int health;
 
     Runnable onDeath;
-    public Enemy(String sprite, Vec2 size, boolean isStatic, int health, int width, int height, Runnable onDeath)
+    public Enemy(String sprite, Vec2 size, boolean isStatic, int health, int width, int height, double speed, Runnable onDeath)
     {
         super(new Vec2(0, 0), sprite, size, 0, isStatic);
         int edge = randInt(0, 3); // 0: top, 1: right, 2: bottom, 3: left
@@ -36,7 +36,7 @@ public class Enemy extends Sprite {
         Vec2 center = new Vec2(width / 2.0, height / 2.0);
         this.addTag("enemy");
         Vec2 directionToCenter = center.subtract(this.middlePos()).unit();
-        this.addVel(directionToCenter.multiply(5));
+        this.addVel(directionToCenter.multiply(speed));
     }
 
     public int randInt(int min, int max)
