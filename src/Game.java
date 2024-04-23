@@ -37,7 +37,8 @@
         };
 
         private Sprite player = new Sprite(new Vec2(0, 0), "images/guy.png", new Vec2(90, 150), 0, false);
-        public Game(int width, int height) {
+        public Game(int width, int height) 
+        {
             this.width = width;
             this.height = height;
             setBackground(new Color(50, 40, 45));
@@ -214,7 +215,8 @@
 
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseReleased(MouseEvent e) 
+        {
 
         }
 
