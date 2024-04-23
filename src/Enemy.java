@@ -1,4 +1,4 @@
-public class Enemy extends Sprite {
+public class Enemy extends Sprite implements Cloneable {
 
     int health;
 

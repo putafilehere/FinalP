@@ -1,5 +1,6 @@
   import java.util.*;
-import java.util.concurrent.ScheduledExecutorService;
+  import java.util.concurrent.Executors;
+  import java.util.concurrent.ScheduledExecutorService;
 class Wave
 {
   private int rushCount;
@@ -17,12 +18,15 @@ class Wave
 
   public void start(GameObject[] objs)
   {
-    ScheduledExecutorService[] rushTimers = new SchedulableExecutorService[rushCount];
-    SheduledExecuterService[] betweenDelays = new ScheduledExecutorService[rushCount];
+    ScheduledExecutorService[] rushTimers = new ScheduledExecutorService[rushCount];
+    ScheduledExecutorService[] betweenDelays = new ScheduledExecutorService[rushCount];
 
     //initialize timers
     for (int i = 0; i < rushCount; i++)
-      timas[i] = new ScheduledExecuter();
+    {
+      rushTimers[i] = Executors.newScheduledThreadPool(1);
+      betweenDelays[i] = Executors.newScheduledThreadPool(1);
+    }
 
     
     for (int i = 0; i < rushCount; i++)

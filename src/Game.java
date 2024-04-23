@@ -154,8 +154,8 @@
             for (int i = 0; i < count; i++) {
                 Enemy enemy = enemyPrefabs[index].clone();
                 enemy.addTag("enemy");
+                objs.add(enemy);
             }
-            objs.add(enemy);
         }
 
 
