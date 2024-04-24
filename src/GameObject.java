@@ -1,6 +1,6 @@
 import java.util.*;
 import java.awt.*;
-public abstract class GameObject {
+public abstract class GameObject implements Cloneable {
 
 
     private Vec2 pos;
@@ -11,7 +11,7 @@ public abstract class GameObject {
 
     private Vec2 size;
 
-    private boolean isStatic;
+    private boolean hasBody;
 
     private boolean friction;
 
@@ -19,12 +19,12 @@ public abstract class GameObject {
 
     private ArrayList<String> tags = new ArrayList<>();
 
-    public GameObject(Vec2 pos, double angle, Vec2 size, boolean isStatic)
+    public GameObject(Vec2 pos, double angle, Vec2 size, boolean hasBody)
     {
         this.pos = pos;
         this.angle = angle;
         this.size = size;
-        this.isStatic = isStatic;
+        this.hasBody = hasBody;
         this.vel = new Vec2(0, 0);
     }
 
@@ -144,4 +144,14 @@ public abstract class GameObject {
         return this.getPos().getY() + this.getSize().getY() + tolerance < other.getPos().getY(); // Check if pos2 is directly below pos1
     }
 
+    @Override
+    public GameObject clone() {
+        try {
+            GameObject clone = new GameObject(pos.clone(), angle, size.clone(), hasBody);
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
