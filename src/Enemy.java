@@ -1,11 +1,20 @@
 public class Enemy extends Sprite implements Cloneable {
 
-    int health;
+    private int health;
+
+    private int width;
+
+    private int height;
+
+    private double speed;
 
     Runnable onDeath;
-    public Enemy(String sprite, Vec2 size, boolean isStatic, int health, int width, int height, double speed, Runnable onDeath)
+    public Enemy(String sprite, Vec2 size, int health, int width, int height, double speed, Runnable onDeath)
     {
-        super(new Vec2(0, 0), sprite, size, 0, isStatic);
+        super(new Vec2(0, 0), sprite, size, 0, false);
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
         int edge = randInt(0, 3); // 0: top, 1: right, 2: bottom, 3: left
         this.health = health;
         this.onDeath = onDeath;
@@ -63,5 +72,12 @@ public class Enemy extends Sprite implements Cloneable {
     {
         if (onDeath != null)
             onDeath.run();
+    }
+
+    @Override
+    public Enemy clone() {
+        Enemy clone = new Enemy(getSprite() + "", getSize().clone(), health, width, height, speed, onDeath);
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
     }
 }

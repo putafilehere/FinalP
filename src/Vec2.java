@@ -1,4 +1,4 @@
-public class Vec2 {
+public class Vec2 implements Cloneable {
 
     private double x;
     private double y;
@@ -82,5 +82,12 @@ public class Vec2 {
     public String toString()
     {
         return "X: " + x + "Y: " + y;
+    }
+
+    @Override
+    public Vec2 clone() {
+            Vec2 clone = new Vec2(x, y);
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
     }
 }

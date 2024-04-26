@@ -95,9 +95,9 @@ public abstract class GameObject implements Cloneable {
 
     public boolean hasFriction() { return friction; }
 
-    public boolean isStatic() { return isStatic; }
+    public boolean isStatic() { return hasBody; }
 
-    public void setStatic(boolean isStatic) {this.isStatic = isStatic;}
+    public void setStatic(boolean hasBody) {this.hasBody = hasBody;}
     // Helper method to get corner points of the rectangle
     public void setFriction(boolean friction) { this.friction = friction; }
 
@@ -142,16 +142,5 @@ public abstract class GameObject implements Cloneable {
 
     public boolean isDown(GameObject other, int tolerance) {
         return this.getPos().getY() + this.getSize().getY() + tolerance < other.getPos().getY(); // Check if pos2 is directly below pos1
-    }
-
-    @Override
-    public GameObject clone() {
-        try {
-            GameObject clone = new GameObject(pos.clone(), angle, size.clone(), hasBody);
-
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
     }
 }

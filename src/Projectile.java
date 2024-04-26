@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Projectile extends Rect {
+public class Projectile extends Rect implements Cloneable {
 
     int health;
 
@@ -24,5 +24,12 @@ public class Projectile extends Rect {
     public void subHealth(int health)
     {
         this.health -= health;
+    }
+
+
+    @Override
+    public Projectile clone() {
+            Projectile clone = new Projectile(getPos().clone(), getSize().clone(), getColor(), health);
+            return clone;
     }
 }

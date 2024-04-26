@@ -20,16 +20,16 @@
         private Vec2 mouse = null;
 
         private Enemy[] enemyPrefabs = {
-                new Enemy("images/slime.png", new Vec2(50, 40), false, 1, width, height, 2, null),
-                new Enemy("images/skelebones.png", new Vec2(30, 80), false, 2, width, height, 4, null),
-                new Enemy("images/motherslime.png", new Vec2(80, 60), false, 2, width, height, 2, () -> spawnEnemy(0, 3)),
-                new Enemy("images/scary_ball.png", new Vec2(100, 100), false, 4, width, height, 2, null),
-                new Enemy("images/snail.png", new Vec2(50, 20), false, 1, width, height, 1, () -> spawnEnemy(4, 1)),
-                new Enemy("images/fdd.png", new Vec2(40, 75), false, 1, width, height, 6.5, null),
-                new Enemy("images/spider.png", new Vec2(70, 40), false, 4, width, height, 3, () -> spawnEnemy(7, 4)),
-                new Enemy("images/spider.png", new Vec2(35, 20), false, 1, width, height, 1.5, null),
-                new Enemy("images/wall.jpeg", new Vec2(200, 200), false, 30, width, height, 0.5, () -> spawnEnemy(9, 10)),
-                new Enemy("images/brick.jpeg", new Vec2(20, 20), false, 1, width, height, 1, null),
+                new Enemy("images/slime.png", new Vec2(50, 40), 1, width, height, 2, null),
+                new Enemy("images/skelebones.png", new Vec2(30, 80), 2, width, height, 4, null),
+                new Enemy("images/motherslime.png", new Vec2(80, 60), 2, width, height, 2, () -> spawnEnemy(0, 3)),
+                new Enemy("images/scary_ball.png", new Vec2(100, 100), 4, width, height, 2, null),
+                new Enemy("images/snail.png", new Vec2(50, 20), 1, width, height, 1, () -> spawnEnemy(4, 1)),
+                new Enemy("images/fdd.png", new Vec2(40, 75), 1, width, height, 6.5, null),
+                new Enemy("images/spider.png", new Vec2(70, 40), 4, width, height, 3, () -> spawnEnemy(7, 4)),
+                new Enemy("images/spider.png", new Vec2(35, 20), 1, width, height, 1.5, null),
+                new Enemy("images/wall.jpeg", new Vec2(200, 200), 30, width, height, 0.5, () -> spawnEnemy(9, 10)),
+                new Enemy("images/brick.jpeg", new Vec2(20, 20), 1, width, height, 1, null),
         };
 
         private Enemy[][] waves = {

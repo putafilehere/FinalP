@@ -16,4 +16,9 @@ public class Rect extends GameObject {
         g.fillRect((int)(getPos().getX()), (int)(getPos().getY()), (int)(getSize().getX()), (int)(getSize().getY()));
     }
 
+    public Color getColor()
+    {
+        return color;
+    }
+
 }
