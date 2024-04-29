@@ -168,7 +168,7 @@
             // Handle any actions related to the pressed key
             // For example, move a player object based on key presses
             if (e.getKeyChar() == 'e')
-                spawnEnemy();
+                spawnEnemy(0, 1);
         }
 
         @Override
