@@ -33,7 +33,7 @@ class Wave
 
     int totalTime = 0;
     
-    for (int[] i = {0}; i[0] < rushCount; i[0]++)
+    for (int[] i = {0}; i[0] < rushCount-1; i[0]++)
     {
       totalTime += betweens[i[0]];
       int[] enCount = {0};

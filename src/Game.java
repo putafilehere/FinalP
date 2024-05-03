@@ -19,22 +19,11 @@
 
         private Vec2 mouse = null;
 
-        private Enemy[] enemyPrefabs = {
-                new Enemy("images/slime.png", new Vec2(50, 40), 1, width, height, 2, null),
-                new Enemy("images/skelebones.png", new Vec2(30, 80), 2, width, height, 4, null),
-                new Enemy("images/motherslime.png", new Vec2(80, 60), 2, width, height, 2, () -> spawnEnemy(0, 3)),
-                new Enemy("images/scary_ball.png", new Vec2(100, 100), 4, width, height, 2, null),
-                new Enemy("images/snail.png", new Vec2(50, 20), 1, width, height, 1, () -> spawnEnemy(4, 1)),
-                new Enemy("images/fdd.png", new Vec2(40, 75), 1, width, height, 6.5, null),
-                new Enemy("images/spider.png", new Vec2(70, 40), 4, width, height, 3, () -> spawnEnemy(7, 4)),
-                new Enemy("images/spider.png", new Vec2(35, 20), 1, width, height, 1.5, null),
-                new Enemy("images/wall.jpeg", new Vec2(200, 200), 30, width, height, 0.5, () -> spawnEnemy(9, 10)),
-                new Enemy("images/brick.jpeg", new Vec2(20, 20), 1, width, height, 1, null),
-        };
+        private Enemy[] enemyPrefabs;
 
-        private Enemy[][] waves = {
-                {}
-        };
+        private Enemy[][][] waves;
+
+        private Wave[] game;
 
         private Sprite player = new Sprite(new Vec2(0, 0), "images/guy.png", new Vec2(90, 150), 0, false);
         public Game(int width, int height) 
@@ -42,15 +31,40 @@
             this.width = width;
             this.height = height;
             setBackground(new Color(50, 40, 45));
+            enemyPrefabs = new Enemy[]{
+                    new Enemy("images/slime.png", new Vec2(50, 40), 1, width, height, 2, null),
+                    new Enemy("images/skelebones.png", new Vec2(30, 80), 2, width, height, 4, null),
+                    new Enemy("images/motherslime.png", new Vec2(80, 60), 2, width, height, 2, () -> spawnEnemy(0, 3)),
+                    new Enemy("images/scary_ball.png", new Vec2(100, 100), 4, width, height, 2, null),
+                    new Enemy("images/snail.png", new Vec2(50, 20), 1, width, height, 1, () -> spawnEnemy(4, 1)),
+                    new Enemy("images/fdd.png", new Vec2(40, 75), 1, width, height, 6.5, null),
+                    new Enemy("images/spider.png", new Vec2(70, 40), 4, width, height, 3, () -> spawnEnemy(7, 4)),
+                    new Enemy("images/spider.png", new Vec2(35, 20), 1, width, height, 1.5, null),
+                    new Enemy("images/wall.jpeg", new Vec2(200, 200), 30, width, height, 0.5, () -> spawnEnemy(9, 10)),
+                    new Enemy("images/brick.jpeg", new Vec2(20, 20), 1, width, height, 1, null),
+            };
+            waves = new Enemy[][][]{{
+                    {enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]}, {enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]},
+                    {enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]}, {enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]},
+            }
 
-            //cutscene
-            player.setPos(new Vec2(width / 2-player.getSize().getX(), height / 2-player.getSize().getY()));
+            };
+
+            game = new Wave[]{
+                   new Wave(waves[0], new int[]{1000, 1000}, new int[]{0, 2500}),
+
+            };
+
+
+            player.setPos(new Vec2(width / 2.0, height / 2.0));
+            player.setPos(player.myOtherMagic());
             objs.add(player);
             //wrappa
             setFocusable(true); // Allow panel to get focus for key events
             addKeyListener(this); // Add key listener to the panel
             addMouseMotionListener(this); // Add mouse motion listener to the panel
             addMouseListener(this); //add moose mistener
+            game[0].start(objs);
         }
 
         @Override
@@ -71,15 +85,20 @@
                                     ((Enemy)thing).setHealth(((Enemy)thing).getHealth()-1);
                                     ((Projectile)thing2).setHealth(((Projectile)thing2).getHealth()-1);
                                     System.out.println("HIT");
-                                    if (((Enemy)thing).getHealth() == 0)
+                                    if (((Enemy)thing).getHealth() == 0) {
+
+                                        ((Enemy)thing).death();
                                         objs.remove(thing);
+                                    }
                                     if (((Projectile)thing2).getHealth() == 0)
                                         objs.remove(thing2);
                                 } else {
                                     ((Enemy)thing2).setHealth(((Enemy)thing2).getHealth()-1);
                                     ((Projectile)thing).setHealth(((Projectile)thing).getHealth()-1);
-                                    if (((Enemy)thing2).getHealth() == 0)
+                                    if (((Enemy)thing2).getHealth() == 0) {
+                                        ((Enemy)thing2).death();
                                         objs.remove(thing2);
+                                    }
                                     if (((Projectile)thing).getHealth() == 0)
                                         objs.remove(thing);
                                     System.out.println("HIT");
@@ -168,7 +187,7 @@
             // Handle any actions related to the pressed key
             // For example, move a player object based on key presses
             if (e.getKeyChar() == 'e')
-                spawnEnemy();
+                spawnEnemy(1, 1);
         }
 
         @Override

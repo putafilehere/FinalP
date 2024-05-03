@@ -15,12 +15,10 @@ public class Enemy extends Sprite implements Cloneable {
         this.width = width;
         this.height = height;
         this.speed = speed;
-        int edge = randInt(0, 3); // 0: top, 1: right, 2: bottom, 3: left
+        int edge = randInt(0, 4); // 0: top, 1: right, 2: bottom, 3: left
         this.health = health;
         this.onDeath = onDeath;
         int x = 0, y = 0;
-
-        // Set initial position based on the chosen edge
         switch (edge) {
             case 0: // Top edge
                 x = randInt(0, width);
@@ -40,12 +38,19 @@ public class Enemy extends Sprite implements Cloneable {
                 break;
         }
 
-        Vec2 posVec = new Vec2(x, y);
-        this.setPos(posVec);
+        // Set position vector
+        setPos(new Vec2(x, y));
+        setPos(myOtherMagic());
+
+        // Compute direction towards the center
         Vec2 center = new Vec2(width / 2.0, height / 2.0);
+        Vec2 directionToCenter = center.subtract(getPos()).unit();
+
+        // Set velocity vector towards the center
+        Vec2 velocity = directionToCenter.multiply(speed);
         this.addTag("enemy");
-        Vec2 directionToCenter = center.subtract(this.middlePos()).unit();
-        this.addVel(directionToCenter.multiply(speed));
+        this.addVel(velocity);
+        System.out.println(velocity);
     }
 
     public int randInt(int min, int max)
@@ -70,6 +75,7 @@ public class Enemy extends Sprite implements Cloneable {
 
     public void death()
     {
+        System.out.println("IIIIIII AM DEADDDDD");
         if (onDeath != null)
             onDeath.run();
     }
