@@ -43,12 +43,29 @@
                     new Enemy("images/wall.jpeg", new Vec2(200, 200), 30, width, height, 0.5, () -> spawnEnemy(9, 10)),
                     new Enemy("images/brick.jpeg", new Vec2(20, 20), 1, width, height, 1, null),
             };
-            waves = new Enemy[][][]{{
-                    {enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]}, {enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]},
-                    {enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]}, {enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[1], enemyPrefabs[0], enemyPrefabs[0], enemyPrefabs[0]},
-            }
+            waves = new Enemy[][][]{
+                    // Wave 1
+                    {
+                        // Rush 1
+                            {
+                                 enemyPrefabs[0],
+                                 enemyPrefabs[0],
+                                 enemyPrefabs[0],
+                                 enemyPrefabs[0],
+                            },
+                        // Rush 2
+                            {
+                                enemyPrefabs[0],
+                                enemyPrefabs[0],
+                                enemyPrefabs[0],
+                                enemyPrefabs[0],
+                            }
+                    },
+                    {
 
+                    }
             };
+
 
             game = new Wave[]{
                    new Wave(waves[0], new int[]{1000, 1000}, new int[]{0, 2500}),

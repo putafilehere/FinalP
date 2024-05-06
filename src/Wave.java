@@ -32,18 +32,24 @@ class Wave
     }
 
     int totalTime = 0;
-    
-    for (int[] i = {0}; i[0] < rushCount-1; i[0]++)
-    {
-      totalTime += betweens[i[0]];
+
+    for (int i = 0; i < rushCount; i++) {
+      System.out.println("YAYYYY EYEEEE IIII WOOOO YEAHHH: " + i);
+      int finalI = i; // Final variable for lambda
+      totalTime += betweens[i];
       int[] enCount = {0};
-      betweenDelays[i[0]].schedule(() -> {
-        rushTimers[i[0]].scheduleAtFixedRate(() -> {
-          objs.add(wave[i[0]][enCount[0]++].clone());
-        }, 0, spacings[i[0]], TimeUnit.MILLISECONDS);
+      betweenDelays[i].schedule(() -> {
+        rushTimers[finalI].scheduleAtFixedRate(() -> {
+          if (enCount[0] == wave[finalI].length) {
+            rushTimers[finalI].shutdown();
+            return; // Exit lambda if condition met
+          }
+          objs.add(wave[finalI][enCount[0]++].clone());
+        }, 0, spacings[finalI], TimeUnit.MILLISECONDS);
+        betweenDelays[finalI].shutdown();
       }, totalTime, TimeUnit.MILLISECONDS);
-      betweenDelays[i[0]].shutdown();
-      rushTimers[i[0]].shutdown();
+
     }
+
   }
 }
