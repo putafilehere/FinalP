@@ -32,16 +32,16 @@
             this.height = height;
             setBackground(new Color(50, 40, 45));
             enemyPrefabs = new Enemy[]{
-                    new Enemy("images/slime.png", new Vec2(50, 40), 1, width, height, 2, null),
-                    new Enemy("images/skelebones.png", new Vec2(30, 80), 2, width, height, 4, null),
-                    new Enemy("images/motherslime.png", new Vec2(80, 60), 2, width, height, 2, () -> spawnEnemy(0, 3)),
-                    new Enemy("images/scary_ball.png", new Vec2(100, 100), 4, width, height, 2, null),
-                    new Enemy("images/snail.png", new Vec2(50, 20), 1, width, height, 1, () -> spawnEnemy(4, 1)),
-                    new Enemy("images/fdd.png", new Vec2(40, 75), 1, width, height, 6.5, null),
-                    new Enemy("images/spider.png", new Vec2(70, 40), 4, width, height, 3, () -> spawnEnemy(7, 4)),
-                    new Enemy("images/spider.png", new Vec2(35, 20), 1, width, height, 1.5, null),
-                    new Enemy("images/wall.jpeg", new Vec2(200, 200), 30, width, height, 0.5, () -> spawnEnemy(9, 10)),
-                    new Enemy("images/brick.jpeg", new Vec2(20, 20), 1, width, height, 1, null),
+                    /*Index 0*/ new Enemy("images/slime.png", new Vec2(50, 40), 1, width, height, 4, null),
+                    /*Index 1*/ new Enemy("images/skelebones.png", new Vec2(30, 80), 2, width, height, 8, null),
+                    /*Index 2*/ new Enemy("images/motherslime.png", new Vec2(80, 60), 2, width, height, 4, () -> spawnEnemy(0, 3)),
+                    /*Index 3*/ new Enemy("images/scary_ball.png", new Vec2(100, 100), 4, width, height, 4, null),
+                    /*Index 4*/ new Enemy("images/snail.png", new Vec2(50, 20), 1, width, height, 2, () -> spawnEnemy(4, 1)),
+                    /*Index 5*/ new Enemy("images/fdd.png", new Vec2(40, 75), 1, width, height, 13, null),
+                    /*Index 6*/ new Enemy("images/spider.png", new Vec2(70, 40), 4, width, height, 6, () -> spawnEnemy(7, 4)),
+                    /*Index 7*/ new Enemy("images/spider.png", new Vec2(35, 20), 1, width, height, 3, null),
+                    /*Index 8*/ new Enemy("images/wall.jpeg", new Vec2(200, 200), 30, width, height, 2, () -> spawnEnemy(9, 10)),
+                    /*Index 9*/ new Enemy("images/brick.jpeg", new Vec2(20, 20), 1, width, height, 2, null),
             };
             waves = new Enemy[][][]{
                     // Wave 1
@@ -204,7 +204,7 @@
             // Handle any actions related to the pressed key
             // For example, move a player object based on key presses
             if (e.getKeyChar() == 'e')
-                spawnEnemy(1, 1);
+                spawnEnemy(8, 1);
         }
 
         @Override
