@@ -82,7 +82,7 @@ public abstract class GameObject implements Cloneable {
     public Vec2 getVel() { return vel; }
 
     public double getAngle() { return angle; }
-  
+
     public void setAngle(double angle)
     {
       this.angle = angle;
