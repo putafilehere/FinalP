@@ -6,6 +6,8 @@ public class Enemy extends Sprite implements Cloneable {
 
     private int height;
 
+  //no way this has to be illegal
+
     private double speed;
 
     Runnable onDeath;
