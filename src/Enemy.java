@@ -23,33 +23,35 @@ public class Enemy extends Sprite implements Cloneable {
         this.onDeath = onDeath;
         int x = 0, y = 0;
 
+        Vec2 directionToCenter = new Vec2(0, 0);
+
         // Set initial position based on the chosen edge
         switch (edge) {
             case 0: // Top edge
-                x = randInt(0, width);
+                x = width/2;
                 y = 0;
+                directionToCenter = new Vec2(0, 1);
                 break;
             case 1: // Right edge
                 x = width;
-                y = randInt(0, height);
+                y = height/2;
+                directionToCenter = new Vec2(-1, 0);
                 break;
             case 2: // Bottom edge
-                x = randInt(0, width);
+                x = width/2;
                 y = height;
+                directionToCenter = new Vec2(0, -1);
                 break;
             case 3: // Left edge
                 x = 0;
-                y = randInt(0, height);
+                y = height/2;
+                directionToCenter = new Vec2(1, 0);
                 break;
         }
-        System.out.println(x + " " + y);
-
         Vec2 posVec = new Vec2(x, y);
         this.setPos(posVec);
-        Vec2 center = new Vec2(width / 2.0, height / 2.0);
         this.addTag("enemy");
-        Vec2 directionToCenter = center.subtract(this.middlePos()).unit();
-        this.addVel(directionToCenter.multiply(-speed));
+        this.addVel(directionToCenter.multiply(speed));
     }
 
     public int randInt(int min, int max)

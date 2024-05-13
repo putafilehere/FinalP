@@ -1,104 +1,71 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.sql.Time;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class Phase1 extends JPanel {
+class Wave
+{
+  private int rushCount;
+  private Enemy[][] wave;
+  private int[] spacings;
+  private int[] betweens;
 
-    private ArrayList<GameObject> objs = new ArrayList<>();
-    private int width, height;
+  public Wave(Enemy[][] wave, int[] spacings, int[] betweens)
+  {
+    this.wave = wave;
+    this.spacings = spacings;
+    for (int i = 0; i < betweens.length; i++)
+    {
+      for (int j = 0; j < i; j++) {
+        betweens[i] += betweens[j];
+      }
+    }
+    this.betweens = betweens;
+    rushCount = wave.length;
+  }
 
-    private Set<Character> pressedKeys = new HashSet<>();
+  public void start(ArrayList<GameObject> objs)
+  {
+    ScheduledExecutorService[] rushTimers = new ScheduledExecutorService[rushCount];
+    ScheduledExecutorService betweenDelay = Executors.newScheduledThreadPool(1);
 
-    private Sprite player;
-
-    // initialization of everything
-    public Phase1(int width, int height) {
-        this.width = width;
-        this.height = height;
-        setBackground(new Color(60, 50, 65));
-        player = new Sprite(new Vec2(0, 0), false, "images/maxwell.jpeg", new Vec2(100, 100));
-        objs.add(player);
-        addKeyListener(new MyKeyListener());
-        setFocusable(true); // Ensure the panel can receive key events
+    //initialize timers
+    for (int i = 0; i < rushCount; i++)
+    {
+      rushTimers[i] = Executors.newScheduledThreadPool(1);
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        for (GameObject thing : objs) {
-            if (pressedKeys.contains('w')) {
-                if (thing.getVel().getY() == 0)
-                    player.addVel(new Vec2(0, -5));
-            } else if (thing.getVel().getY() == -5) {
-                player.addVel(new Vec2(0, 5));
-            }
-            if (pressedKeys.contains('a')) {
-                if (thing.getVel().getX() == 0)
-                    player.addVel(new Vec2(-5, 0));
-            } else if (thing.getVel().getX() == -5) {
-                player.addVel(new Vec2(5, 0));
-            }
-            if (pressedKeys.contains('s')) {
-                if (thing.getVel().getY() == 0)
-                    player.setVel(new Vec2(0, 5));
-            } else if (thing.getVel().getY() == 5) {
-                player.addVel(new Vec2(0, -5));
-            }
-            if (pressedKeys.contains('d')) {
-                if (thing.getVel().getX() == 0)
-                    player.addVel(new Vec2(5, 0));
-            } else if (thing.getVel().getX() == 5) {
-                player.addVel(new Vec2(-5, 0));
-            }
-            int yPos = thing.getPos().getY();
-            int yVel = thing.getVel().getY();
-            int xPos = thing.getPos().getX();
-            int xVel = thing.getVel().getX();
-            thing.setPos(new Vec2(xPos + xVel, yPos + yVel));
-            thing.draw(g);
-        }
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            System.out.println("oh no! I accidentally " + e + ". Not again!");
-        }
-        repaint();
+    int totalTime = 0;
+
+    for (int i = 0; i < rushCount; i++) {
+      System.out.println("YAYYYY EYEEEE IIII WOOOO YEAHHH: " + i);
+      int finalI = i; // Final variable for lambda
+      totalTime += betweens[i];
+      if (i > 0)
+        totalTime += spacings[i-1] * rushCount;
+      int[] enCount = {0};
+      betweenDelay.schedule(() -> {
+        rushTimers[finalI].scheduleAtFixedRate(() -> {
+          if (enCount[0] == wave[finalI].length) {
+            rushTimers[finalI].shutdown();
+            return; // Exit lambda if condition met
+          }
+          objs.add(wave[finalI][enCount[0]++].clone());
+        }, 0, spacings[finalI], TimeUnit.MILLISECONDS);
+      }, totalTime, TimeUnit.MILLISECONDS);
+
     }
 
-    private class MyKeyListener implements KeyListener {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            // Not used in this case
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            char key = e.getKeyChar();
-            switch (key) {
-                case 'w':
-                case 'a':
-                case 's':
-                case 'd':
-                    pressedKeys.add(key);
-                    System.out.println(key);
-                    break;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            char key = e.getKeyChar();
-            switch (key) {
-                case 'w':
-                case 'a':
-                case 's':
-                case 'd':
-                    pressedKeys.remove(key);
-                    System.out.println(key);
-                    break;
-            }
-        }
-    }
+  }
 }
+
+
+this is my enemy class in java.
+
+wave parameter is an array of enemy arrays (the enemy arrays are "rushes", and there are multiple rushes in one wave)
+
+each single enemy in a rush is supposed to be spawned with a set time between them, with a corresponding int value inside of spacings. This works as expected. however, i also have an int array spacings, which has corresponding int values of the time between the rushes where the first index is always zero because there is no wait to the start of the first rush. this doesnt work. fix it.
+
+
+yay
