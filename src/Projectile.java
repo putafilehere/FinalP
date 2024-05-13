@@ -6,7 +6,7 @@ public class Projectile extends Rect implements Cloneable {
 
     public Projectile(Vec2 pos, Vec2 size, Color color, int health)
     {
-        super(pos, size, color, 0, false);
+        super(pos, size, color, 0, true);
 
         this.addTag("projectile");
         this.health = health;

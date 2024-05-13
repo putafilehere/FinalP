@@ -72,10 +72,17 @@ public abstract class GameObject implements Cloneable {
         return new Vec2(middleX, middleY);
     }
 
+    public Vec2 myOtherMagic() {
+        int middleX = (int) (pos.getX() - size.getX() / 2);
+        int middleY = (int) (pos.getY() - size.getY() / 2);
+
+        return new Vec2(middleX, middleY);
+    }
+
     public Vec2 getVel() { return vel; }
 
     public double getAngle() { return angle; }
-  
+
     public void setAngle(double angle)
     {
       this.angle = angle;
