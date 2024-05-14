@@ -27,34 +27,19 @@ class Wave
 
   public void start(ArrayList<GameObject> objs)
   {
-    ScheduledExecutorService[] rushTimers = new ScheduledExecutorService[rushCount];
-    ScheduledExecutorService betweenDelay = Executors.newScheduledThreadPool(1);
 
-    //initialize timers
-    for (int i = 0; i < rushCount; i++)
+    for (int i = 0; i < wave.length; i++)
     {
-      rushTimers[i] = Executors.newScheduledThreadPool(1);
-    }
-
-    int totalTime = 0;
-
-    for (int i = 0; i < rushCount; i++) {
-      int finalI = i; // Final variable for lambda
-      totalTime += betweens[i];
-      if (i > 0)
-        totalTime += spacings[i-1] * rushCount;
-      int[] enCount = {0};
-      System.out.println("Timelog" + totalTime);
-      betweenDelay.schedule(() -> {
-        rushTimers[finalI].scheduleAtFixedRate(() -> {
-          if (enCount[0] == wave[finalI].length) {
-            rushTimers[finalI].shutdown();
-            return; // Exit lambda if condition met
-          }
-          objs.add(wave[finalI][enCount[0]++].clone());
-          System.out.println("enemySpawned");
-        }, 0, spacings[finalI], TimeUnit.MILLISECONDS);
-      }, totalTime, TimeUnit.MILLISECONDS);
+      try {
+        Thread.sleep(betweens[i]);
+      } catch(Exception e){}
+      for (int j = 0; j < wave[0].length; j++)
+      {
+        try {
+          Thread.sleep(spacings[i]);
+        } catch(Exception e){}
+        objs.add(wave[i][j].clone());
+      }
 
     }
 
