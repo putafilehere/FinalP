@@ -25,6 +25,10 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
 
     private Wave[] game;
 
+    private int time = 0;
+
+    private int timeThingy = 0;
+
     private Sprite player = new Sprite(new Vec2(0, 0), "images/guy.png", new Vec2(90, 150), 0, false);
     public Game(int width, int height) 
     {
@@ -111,11 +115,8 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
                         if (thing.isColliding(thing2)) {
                             if (thing instanceof Enemy)
                             {
-                                System.out.println("Projectile health: " + ((Projectile)thing2).getHealth());
-                                System.out.println("Enemy health: " + ((Enemy)thing).getHealth());
                                 ((Enemy)thing).setHealth(((Enemy)thing).getHealth()-1);
                                 ((Projectile)thing2).setHealth(((Projectile)thing2).getHealth()-1);
-                                System.out.println("HIT");
                                 if (((Enemy)thing).getHealth() == 0) {
 
                                     ((Enemy)thing).death();
@@ -132,9 +133,7 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
                                 }
                                 if (((Projectile)thing).getHealth() == 0)
                                     objs.remove(thing);
-                                System.out.println("HIT");
                             }
-                            System.out.println("collision!");
                             break painting;
                             //skip a frame to avoid errors, maybe bad coding practice
                         }
@@ -186,7 +185,14 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
         }
 
         try {
-            Thread.sleep(10);
+          Thread.sleep(10);
+          timeThingy++;
+          if (timeThingy == 100)
+          {
+            time++;
+            timeThingy = 0;
+            System.out.println("Seconds elapsed " + time);
+          }
         } catch (InterruptedException e) {
             System.out.println("oh no! I accidentally " + e + ". Not again!");
         }

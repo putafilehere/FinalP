@@ -14,7 +14,6 @@ public class Enemy extends Sprite implements Cloneable {
     public Enemy(String sprite, Vec2 size, int health, int width, int height, double speed, Runnable onDeath)
     {
         super(new Vec2(0, 0), sprite, size, 0, false);
-        System.out.println(width + "OH NOOOOO" + height);
         this.width = width;
         this.height = height;
         this.speed = speed;
