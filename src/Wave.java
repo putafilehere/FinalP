@@ -27,18 +27,20 @@ class Wave
 
   public void start(ArrayList<GameObject> objs)
   {
-
-    for (int i = 0; i < wave.length; i++)
+    ScheduledExecutorService secretaryJoeBiden = Executors.newScheduledThreadPool(1);
+    int totalTime = 0;
+    for (int[] i = {0}; i[0] < wave.length; i[0]++)
     {
-      try {
-        Thread.sleep(betweens[i]);
-      } catch(Exception e){}
-      for (int j = 0; j < wave[0].length; j++)
+      System.out.println("blah blahis the loop working" + i[0]);
+      totalTime += betweens[i[0]];
+      for (int[] j = {0}; j[0] < wave[0].length; j[0]++)
       {
-        try {
-          Thread.sleep(spacings[i]);
-        } catch(Exception e){}
-        objs.add(wave[i][j].clone());
+        secretaryJoeBiden.schedule(() -> {
+          System.out.println("enemy moment XD ");
+          objs.add(wave[i[0]][j[0]].clone());
+        }, totalTime, TimeUnit.MILLISECONDS);
+        totalTime += spacings[i[0]];
+        System.out.println("blah blah inner loop working" + j[0] + "\nTimestamp: " + totalTime);
       }
 
     }
