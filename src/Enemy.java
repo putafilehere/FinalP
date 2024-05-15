@@ -29,6 +29,7 @@ public class Enemy extends Sprite implements Cloneable {
             case 0: // Top edge
                 x = width/2;
                 y = 0;
+            
                 directionToCenter = new Vec2(0, 1);
                 break;
             case 1: // Right edge
@@ -47,10 +48,12 @@ public class Enemy extends Sprite implements Cloneable {
                 directionToCenter = new Vec2(1, 0);
                 break;
         }
+      
         Vec2 posVec = new Vec2(x, y);
+        System.out.println(directionToCenter);
         this.setPos(posVec);
         this.addTag("enemy");
-        this.addVel(directionToCenter.multiply(speed));
+        this.addVel(directionToCenter.multiply(speed*0.5));
     }
 
     public int randInt(int min, int max)

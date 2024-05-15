@@ -94,12 +94,11 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
         player.setPos(new Vec2(width / 2.0, height / 2.0));
         player.setPos(player.myOtherMagic());
         objs.add(player);
-        //wrappa
         setFocusable(true); // Allow panel to get focus for key events
         addKeyListener(this); // Add key listener to the panel
         addMouseMotionListener(this); // Add mouse motion listener to the panel
         addMouseListener(this); //add moose mistener
-        game[1].start(objs);
+        game[0].start(objs);
     }
 
     @Override
@@ -138,36 +137,6 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
                             //skip a frame to avoid errors, maybe bad coding practice
                         }
                     }
-
-
-                    if (thing2.isStatic() && thing != thing2 && thing.isColliding(thing2)) {
-                        //collision resolving
-
-                        final int errorMargin = 5; // Adjust this value according to your needs
-
-                        // Calculate the overlap along each axis
-                        int overlapX = (int)(Math.min(thing.getPos().getX() + thing.getSize().getX() - thing2.getPos().getX(),
-                                thing2.getPos().getX() + thing2.getSize().getX() - thing.getPos().getX()));
-                        int overlapY = (int)(Math.min(thing.getPos().getY() + thing.getSize().getY() - thing2.getPos().getY(),
-                                thing2.getPos().getY() + thing2.getSize().getY() - thing.getPos().getY()));
-
-                        if (overlapX < overlapY) {
-                            // Adjust horizontally
-                            if (thing.getPos().getX() < thing2.getPos().getX()) {
-                                thing.setPos(new Vec2(thing.getPos().getX() - overlapX - errorMargin, thing.getPos().getY()));
-                                thing.setPos(new Vec2(thing.getPos().getX() - overlapX - errorMargin, thing.getPos().getY()));
-                            } else {
-                                thing.setPos(new Vec2(thing.getPos().getX() + overlapX + errorMargin, thing.getPos().getY()));
-                            }
-                        } else {
-                            // Adjust vertically
-                            if (thing.getPos().getY() < thing2.getPos().getY()) {
-                                thing.setPos(new Vec2(thing.getPos().getX(), thing.getPos().getY() - overlapY - errorMargin));
-                            } else {
-                                thing.setPos(new Vec2(thing.getPos().getX(), thing.getPos().getY() + overlapY + errorMargin));
-                            }
-                        }
-                    }
                 }
             }
             int yPos = (int)(thing.getPos().getY());
@@ -186,13 +155,6 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
 
         try {
           Thread.sleep(10);
-          timeThingy++;
-          if (timeThingy == 100)
-          {
-            time++;
-            timeThingy = 0;
-            System.out.println("Seconds elapsed " + time);
-          }
         } catch (InterruptedException e) {
             System.out.println("oh no! I accidentally " + e + ". Not again!");
         }
@@ -251,7 +213,12 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
     @Override
     public void mouseDragged(MouseEvent e)
     {
-
+      mouse = new Vec2(e.getX(), e.getY());
+      Vec2 mousePos = new Vec2(e.getX(), e.getY());
+      Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
+      Projectile newProj = new Projectile(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 3);
+      newProj.addVel(playerToMouse.multiply(10.0));
+      objs.add(newProj);
     }
 
     @Override
@@ -261,12 +228,6 @@ public class Game extends JPanel implements KeyListener, MouseMotionListener, Mo
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mouse = new Vec2(e.getX(), e.getY());
-        Vec2 mousePos = new Vec2(e.getX(), e.getY());
-        Vec2 playerToMouse = mousePos.subtract(player.middlePos()).unit();
-        Projectile newProj = new Projectile(player.middlePos(), new Vec2(20, 20), new Color(100, 100, 100), 3);
-        newProj.addVel(playerToMouse.multiply(10.0));
-        objs.add(newProj);
     }
 
 
