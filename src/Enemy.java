@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public class Enemy extends Sprite implements Cloneable {
 
     private int health;
@@ -10,8 +12,10 @@ public class Enemy extends Sprite implements Cloneable {
 
     private double speed;
 
+    private int moneyOnDeath;
+
     Runnable onDeath;
-    public Enemy(String sprite, Vec2 size, int health, int width, int height, double speed, Runnable onDeath)
+    public Enemy(String sprite, Vec2 size, int health, int width, int height, double speed, int moneyOnDeath, Runnable onDeath)
     {
         super(new Vec2(0, 0), sprite, size, 0, false);
         this.width = width;
@@ -19,6 +23,7 @@ public class Enemy extends Sprite implements Cloneable {
         this.speed = speed;
         int edge = randInt(0, 3); // 0: top, 1: right, 2: bottom, 3: left
         this.health = health;
+        this.moneyOnDeath = moneyOnDeath;
         this.onDeath = onDeath;
         int x = 0, y = 0;
 
@@ -29,7 +34,7 @@ public class Enemy extends Sprite implements Cloneable {
             case 0: // Top edge
                 x = width/2;
                 y = 0;
-            
+
                 directionToCenter = new Vec2(0, 1);
                 break;
             case 1: // Right edge
@@ -48,12 +53,16 @@ public class Enemy extends Sprite implements Cloneable {
                 directionToCenter = new Vec2(1, 0);
                 break;
         }
-      
+
         Vec2 posVec = new Vec2(x, y);
         System.out.println(directionToCenter);
         this.setPos(posVec);
         this.addTag("enemy");
-        this.addVel(directionToCenter.multiply(speed*0.5));
+        this.addVel(directionToCenter.multiply(speed));
+        if (sprite.equals("images/snail.png"))
+        {
+            this.addTag("snail");
+        }
     }
 
     public int randInt(int min, int max)
@@ -76,15 +85,17 @@ public class Enemy extends Sprite implements Cloneable {
         this.health -= health;
     }
 
-    public void death()
+    public void death(Game game, JLabel moneyLabel, int money)
     {
+        game.money += moneyOnDeath;
         if (onDeath != null)
             onDeath.run();
+        moneyLabel.setText("Money: " + money);
     }
 
     @Override
     public Enemy clone() {
-        Enemy clone = new Enemy(getSprite() + "", getSize().clone(), health, width, height, speed, onDeath);
+        Enemy clone = new Enemy(getSprite() + "", getSize().clone(), health, width, height, speed, moneyOnDeath, onDeath);
             return clone;
     }
 }

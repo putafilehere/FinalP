@@ -25,7 +25,7 @@ class Wave
     rushCount = wave.length;
   }
 
-  public void start(ArrayList<GameObject> objs) {
+  public void start(ArrayList<GameObject> objs, Game game) {
       ScheduledExecutorService secretaryJoeBiden = Executors.newScheduledThreadPool(1);
       int totalTime = 0;
       for (int i = 0; i < wave.length; i++) {
@@ -34,6 +34,8 @@ class Wave
           for (int j = 0; j < wave[0].length; j++) {
               final int rowIndex = j;
               secretaryJoeBiden.schedule(() -> {
+                  if (waveIndex == wave.length-1 && rowIndex == wave[0].length-1)
+                      game.lastEnSpawned = true;
                   objs.add(wave[waveIndex][rowIndex].clone());
               }, totalTime, TimeUnit.MILLISECONDS);
               totalTime += spacings[waveIndex];

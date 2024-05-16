@@ -9,7 +9,7 @@ public class Main {
         JFrame frame = new JFrame();
         frame.setSize(screenSize);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Game intro = new Game((int)screenSize.getWidth(), (int)screenSize.getHeight());
+        Game intro = new Game((int)screenSize.getWidth(), (int)screenSize.getHeight(), frame);
         frame.add(intro);
         frame.setVisible(true);
     }
